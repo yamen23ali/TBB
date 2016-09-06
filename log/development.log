@@ -1,0 +1,368 @@
+  [1m[36m (1.9ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (1.2ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to DeviseTokenAuthCreateUsers (20160906190409)
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to DeviseTokenAuthCreateUsers (20160906190409)
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to DeviseTokenAuthCreateUsers (20160906190409)
+  [1m[35m (0.1ms)[0m  begin transaction
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/yali/My_apps/TBB/db/migrate/20160906190409_devise_token_auth_create_users.rb:45)
+  [1m[36m (0.4ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar DEFAULT 'email' NOT NULL, "uid" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "confirmation_token" varchar, "confirmed_at" datetime, "confirmation_sent_at" datetime, "unconfirmed_email" varchar, "name" varchar, "nickname" varchar, "image" varchar, "email" varchar, "tokens" text, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+
+  [1m[36m (0.3ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_uid_and_provider" ON "users" ("uid", "provider")[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_uid_and_provider' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_uid_and_provider' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20160906190409"]]
+  [1m[35m (1.9ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_uid_and_provider' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_uid_and_provider' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+
+
+
+Started POST "/" for ::1 at 2016-09-06 21:16:31 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+
+ActionController::RoutingError (No route matches [POST] "/"):
+  actionpack (4.2.6) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.3.0) lib/web_console/middleware.rb:28:in `block in call'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `catch'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.6) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.6) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/static.rb:120:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.6) lib/rails/engine.rb:518:in `call'
+  railties (4.2.6) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /Users/yali/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /Users/yali/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /Users/yali/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.2ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_route.html.erb (1.5ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_table.html.erb (31.0ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (12.0ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (129.9ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (92.1ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.6ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (142.2ms)
+
+
+Started POST "/auth" for ::1 at 2016-09-06 21:17:58 +0200
+Processing by DeviseTokenAuth::RegistrationsController#create as JSON
+  Parameters: {"email"=>"yamen@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "registration"=>{"email"=>"yamen@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+Can't verify CSRF token authenticity
+Completed 422 Unprocessable Entity in 1ms (ActiveRecord: 0.0ms)
+
+ActionController::InvalidAuthenticityToken (ActionController::InvalidAuthenticityToken):
+  actionpack (4.2.6) lib/action_controller/metal/request_forgery_protection.rb:181:in `handle_unverified_request'
+  actionpack (4.2.6) lib/action_controller/metal/request_forgery_protection.rb:209:in `handle_unverified_request'
+  devise (4.2.0) lib/devise/controllers/helpers.rb:253:in `handle_unverified_request'
+  actionpack (4.2.6) lib/action_controller/metal/request_forgery_protection.rb:204:in `verify_authenticity_token'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:432:in `block in make_lambda'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:164:in `call'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:164:in `block in halting'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:504:in `call'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:504:in `block in call'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:504:in `each'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:504:in `call'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:92:in `__run_callbacks__'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:778:in `_run_process_action_callbacks'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (4.2.6) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.2.6) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.2.6) lib/action_controller/metal/instrumentation.rb:32:in `block in process_action'
+  activesupport (4.2.6) lib/active_support/notifications.rb:164:in `block in instrument'
+  activesupport (4.2.6) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.2.6) lib/active_support/notifications.rb:164:in `instrument'
+  actionpack (4.2.6) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.2.6) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.2.6) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.2.6) lib/abstract_controller/base.rb:137:in `process'
+  actionview (4.2.6) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.2.6) lib/action_controller/metal.rb:196:in `dispatch'
+  actionpack (4.2.6) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.2.6) lib/action_controller/metal.rb:237:in `block in action'
+  actionpack (4.2.6) lib/action_dispatch/routing/route_set.rb:74:in `call'
+  actionpack (4.2.6) lib/action_dispatch/routing/route_set.rb:74:in `dispatch'
+  actionpack (4.2.6) lib/action_dispatch/routing/route_set.rb:43:in `serve'
+  actionpack (4.2.6) lib/action_dispatch/routing/mapper.rb:49:in `serve'
+  actionpack (4.2.6) lib/action_dispatch/journey/router.rb:43:in `block in serve'
+  actionpack (4.2.6) lib/action_dispatch/journey/router.rb:30:in `each'
+  actionpack (4.2.6) lib/action_dispatch/journey/router.rb:30:in `serve'
+  actionpack (4.2.6) lib/action_dispatch/routing/route_set.rb:817:in `call'
+  warden (1.2.6) lib/warden/manager.rb:35:in `block in call'
+  warden (1.2.6) lib/warden/manager.rb:34:in `catch'
+  warden (1.2.6) lib/warden/manager.rb:34:in `call'
+  rack (1.6.4) lib/rack/etag.rb:24:in `call'
+  rack (1.6.4) lib/rack/conditionalget.rb:38:in `call'
+  rack (1.6.4) lib/rack/head.rb:13:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/flash.rb:260:in `call'
+  rack (1.6.4) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.6.4) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/cookies.rb:560:in `call'
+  activerecord (4.2.6) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.2.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:653:in `call'
+  activerecord (4.2.6) lib/active_record/migration.rb:377:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:88:in `__run_callbacks__'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:778:in `_run_call_callbacks'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (4.2.6) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/remote_ip.rb:78:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  web-console (2.3.0) lib/web_console/middleware.rb:28:in `block in call'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `catch'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.6) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.6) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/static.rb:120:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.6) lib/rails/engine.rb:518:in `call'
+  railties (4.2.6) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /Users/yali/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /Users/yali/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /Users/yali/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (3.9ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.8ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (44.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.2ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (32.8ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.2ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (71.9ms)
+
+
+Started POST "/auth" for ::1 at 2016-09-06 21:19:04 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by DeviseTokenAuth::RegistrationsController#create as JSON
+  Parameters: {"email"=>"yamen@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "registration"=>{"email"=>"yamen@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+Can't verify CSRF token authenticity
+Unpermitted parameter: registration
+Unpermitted parameter: registration
+Unpermitted parameter: registration
+Completed 422 Unprocessable Entity in 97ms (Views: 0.3ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/auth" for ::1 at 2016-09-06 21:25:26 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by DeviseTokenAuth::RegistrationsController#create as JSON
+  Parameters: {"email"=>"yamen@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "registration"=>{"email"=>"yamen@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+Can't verify CSRF token authenticity
+Unpermitted parameter: registration
+Unpermitted parameter: registration
+Unpermitted parameter: registration
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "users" WHERE "users"."provider" = ? AND "users"."email" = ?[0m  [["provider", "email"], ["email", "yamen@gmail.com"]]
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "tokens", "uid", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["email", "yamen@gmail.com"], ["encrypted_password", "$2a$10$skgS71TDeU/Ca.MOc2PV/evVRHlle.t/BiI.SINFIdxlBr5AlYW0a"], ["tokens", "{}"], ["uid", "yamen@gmail.com"], ["created_at", "2016-09-06 19:25:26.543732"], ["updated_at", "2016-09-06 19:25:26.543732"]]
+  [1m[36m (1.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"expiry\":1474399526}}"], ["updated_at", "2016-09-06 19:25:26.616393"], ["id", 1]]
+  [1m[35m (1.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1   [["id", 1]]
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$8pnowDi3WdIL1Lbi3.IQguQ3nd0oyr1SBR7J12JmN64qHJPtA97j.\",\"expiry\":1474399526,\"last_token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"updated_at\":\"2016-09-06T21:25:26.686+02:00\"}}"], ["updated_at", "2016-09-06 19:25:26.687244"], ["id", 1]]
+  [1m[35m (1.6ms)[0m  commit transaction
+Completed 200 OK in 293ms (Views: 0.3ms | ActiveRecord: 7.1ms)
+
+
+Started POST "/auth/sign_in" for ::1 at 2016-09-06 21:28:35 +0200
+Processing by DeviseTokenAuth::SessionsController#create as JSON
+  Parameters: {"email"=>"yamen@gmail.com", "password"=>"[FILTERED]", "session"=>{"email"=>"yamen@gmail.com", "password"=>"[FILTERED]"}}
+Can't verify CSRF token authenticity
+Unpermitted parameter: session
+Unpermitted parameter: session
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE (email = 'yamen@gmail.com' AND provider='email')  ORDER BY "users"."id" ASC LIMIT 1[0m
+Unpermitted parameter: session
+Unpermitted parameter: session
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mUPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$8pnowDi3WdIL1Lbi3.IQguQ3nd0oyr1SBR7J12JmN64qHJPtA97j.\",\"expiry\":1474399526,\"last_token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"updated_at\":\"2016-09-06T21:25:26.686+02:00\"},\"JsBoMlg1NcTy4gO4pQY1gA\":{\"token\":\"$2a$10$stLlW7K8vAwQkHC1W8BCCeKpZbLwP0tzQFLvmEOzaZV.hQjqO4KBW\",\"expiry\":1474399715}}"], ["updated_at", "2016-09-06 19:28:35.549382"], ["id", 1]]
+  [1m[35m (1.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "users" SET "last_sign_in_at" = ?, "current_sign_in_at" = ?, "last_sign_in_ip" = ?, "current_sign_in_ip" = ?, "sign_in_count" = ?, "updated_at" = ? WHERE "users"."id" = ?  [["last_sign_in_at", "2016-09-06 19:28:35.553605"], ["current_sign_in_at", "2016-09-06 19:28:35.553605"], ["last_sign_in_ip", "::1"], ["current_sign_in_ip", "::1"], ["sign_in_count", 1], ["updated_at", "2016-09-06 19:28:35.554504"], ["id", 1]]
+  [1m[36m (1.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1 [0m  [["id", 1]]
+  [1m[35mSQL (0.2ms)[0m  UPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$8pnowDi3WdIL1Lbi3.IQguQ3nd0oyr1SBR7J12JmN64qHJPtA97j.\",\"expiry\":1474399526,\"last_token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"updated_at\":\"2016-09-06T21:25:26.686+02:00\"},\"JsBoMlg1NcTy4gO4pQY1gA\":{\"token\":\"$2a$10$Jy6wacpFyyUmaRNhd1tqwObonnRsoP4.blvH4fl.N7ggrCSjPHHF.\",\"expiry\":1474399715,\"last_token\":\"$2a$10$stLlW7K8vAwQkHC1W8BCCeKpZbLwP0tzQFLvmEOzaZV.hQjqO4KBW\",\"updated_at\":\"2016-09-06T21:28:35.624+02:00\"}}"], ["updated_at", "2016-09-06 19:28:35.625210"], ["id", 1]]
+  [1m[36m (1.7ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 215ms (Views: 0.2ms | ActiveRecord: 6.4ms)
+
+
+Started POST "/auth/sign_in" for ::1 at 2016-09-06 21:31:14 +0200
+Processing by DeviseTokenAuth::SessionsController#create as JSON
+  Parameters: {"email"=>"yamen@gmail.com", "password"=>"[FILTERED]", "session"=>{"email"=>"yamen@gmail.com", "password"=>"[FILTERED]"}}
+Can't verify CSRF token authenticity
+Unpermitted parameter: session
+Unpermitted parameter: session
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE (email = 'yamen@gmail.com' AND provider='email')  ORDER BY "users"."id" ASC LIMIT 1
+Unpermitted parameter: session
+Unpermitted parameter: session
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$8pnowDi3WdIL1Lbi3.IQguQ3nd0oyr1SBR7J12JmN64qHJPtA97j.\",\"expiry\":1474399526,\"last_token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"updated_at\":\"2016-09-06T21:25:26.686+02:00\"},\"JsBoMlg1NcTy4gO4pQY1gA\":{\"token\":\"$2a$10$Jy6wacpFyyUmaRNhd1tqwObonnRsoP4.blvH4fl.N7ggrCSjPHHF.\",\"expiry\":1474399715,\"last_token\":\"$2a$10$stLlW7K8vAwQkHC1W8BCCeKpZbLwP0tzQFLvmEOzaZV.hQjqO4KBW\",\"updated_at\":\"2016-09-06T21:28:35.624+02:00\"},\"7rhH8nAkiLluXMFdDJ7uPQ\":{\"token\":\"$2a$10$Haes865mMv6FSBV4zuBReu/6kcjE70HDYiBGN27Z/QG71KBvQGx2i\",\"expiry\":1474399874}}"], ["updated_at", "2016-09-06 19:31:14.339756"], ["id", 1]]
+  [1m[36m (1.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "users" SET "current_sign_in_at" = ?, "sign_in_count" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["current_sign_in_at", "2016-09-06 19:31:14.343576"], ["sign_in_count", 2], ["updated_at", "2016-09-06 19:31:14.344496"], ["id", 1]]
+  [1m[35m (1.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1   [["id", 1]]
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$8pnowDi3WdIL1Lbi3.IQguQ3nd0oyr1SBR7J12JmN64qHJPtA97j.\",\"expiry\":1474399526,\"last_token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"updated_at\":\"2016-09-06T21:25:26.686+02:00\"},\"JsBoMlg1NcTy4gO4pQY1gA\":{\"token\":\"$2a$10$Jy6wacpFyyUmaRNhd1tqwObonnRsoP4.blvH4fl.N7ggrCSjPHHF.\",\"expiry\":1474399715,\"last_token\":\"$2a$10$stLlW7K8vAwQkHC1W8BCCeKpZbLwP0tzQFLvmEOzaZV.hQjqO4KBW\",\"updated_at\":\"2016-09-06T21:28:35.624+02:00\"},\"7rhH8nAkiLluXMFdDJ7uPQ\":{\"token\":\"$2a$10$Sj2gVQeBYi4OSsj1mbSPEu09iqGLyrAhv2m0iIOSCG43ws3n08ixW\",\"expiry\":1474399874,\"last_token\":\"$2a$10$Haes865mMv6FSBV4zuBReu/6kcjE70HDYiBGN27Z/QG71KBvQGx2i\",\"updated_at\":\"2016-09-06T21:31:14.413+02:00\"}}"], ["updated_at", "2016-09-06 19:31:14.414483"], ["id", 1]]
+  [1m[35m (1.8ms)[0m  commit transaction
+Completed 200 OK in 210ms (Views: 0.2ms | ActiveRecord: 6.4ms)
+
+
+Started POST "/auth/sign_in" for ::1 at 2016-09-06 21:31:18 +0200
+Processing by DeviseTokenAuth::SessionsController#create as JSON
+  Parameters: {"email"=>"yamen@gmail.com", "password"=>"[FILTERED]", "session"=>{"email"=>"yamen@gmail.com", "password"=>"[FILTERED]"}}
+Can't verify CSRF token authenticity
+Unpermitted parameter: session
+Unpermitted parameter: session
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE (email = 'yamen@gmail.com' AND provider='email')  ORDER BY "users"."id" ASC LIMIT 1[0m
+Unpermitted parameter: session
+Unpermitted parameter: session
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$8pnowDi3WdIL1Lbi3.IQguQ3nd0oyr1SBR7J12JmN64qHJPtA97j.\",\"expiry\":1474399526,\"last_token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"updated_at\":\"2016-09-06T21:25:26.686+02:00\"},\"JsBoMlg1NcTy4gO4pQY1gA\":{\"token\":\"$2a$10$Jy6wacpFyyUmaRNhd1tqwObonnRsoP4.blvH4fl.N7ggrCSjPHHF.\",\"expiry\":1474399715,\"last_token\":\"$2a$10$stLlW7K8vAwQkHC1W8BCCeKpZbLwP0tzQFLvmEOzaZV.hQjqO4KBW\",\"updated_at\":\"2016-09-06T21:28:35.624+02:00\"},\"7rhH8nAkiLluXMFdDJ7uPQ\":{\"token\":\"$2a$10$Sj2gVQeBYi4OSsj1mbSPEu09iqGLyrAhv2m0iIOSCG43ws3n08ixW\",\"expiry\":1474399874,\"last_token\":\"$2a$10$Haes865mMv6FSBV4zuBReu/6kcjE70HDYiBGN27Z/QG71KBvQGx2i\",\"updated_at\":\"2016-09-06T21:31:14.413+02:00\"},\"QH-RdiY80l7zRNf3y4bdcw\":{\"token\":\"$2a$10$uPEcLMT9ORR0grp6RgON6.9aWZE.qkVcU9TvLG1/fgxQTjFBC4HSi\",\"expiry\":1474399878}}"], ["updated_at", "2016-09-06 19:31:18.799862"], ["id", 1]]
+  [1m[35m (1.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "users" SET "last_sign_in_at" = ?, "current_sign_in_at" = ?, "sign_in_count" = ?, "updated_at" = ? WHERE "users"."id" = ?  [["last_sign_in_at", "2016-09-06 19:31:14.343576"], ["current_sign_in_at", "2016-09-06 19:31:18.803996"], ["sign_in_count", 3], ["updated_at", "2016-09-06 19:31:18.805051"], ["id", 1]]
+  [1m[36m (1.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1 [0m  [["id", 1]]
+  [1m[35mSQL (0.2ms)[0m  UPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$8pnowDi3WdIL1Lbi3.IQguQ3nd0oyr1SBR7J12JmN64qHJPtA97j.\",\"expiry\":1474399526,\"last_token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"updated_at\":\"2016-09-06T21:25:26.686+02:00\"},\"JsBoMlg1NcTy4gO4pQY1gA\":{\"token\":\"$2a$10$Jy6wacpFyyUmaRNhd1tqwObonnRsoP4.blvH4fl.N7ggrCSjPHHF.\",\"expiry\":1474399715,\"last_token\":\"$2a$10$stLlW7K8vAwQkHC1W8BCCeKpZbLwP0tzQFLvmEOzaZV.hQjqO4KBW\",\"updated_at\":\"2016-09-06T21:28:35.624+02:00\"},\"7rhH8nAkiLluXMFdDJ7uPQ\":{\"token\":\"$2a$10$Sj2gVQeBYi4OSsj1mbSPEu09iqGLyrAhv2m0iIOSCG43ws3n08ixW\",\"expiry\":1474399874,\"last_token\":\"$2a$10$Haes865mMv6FSBV4zuBReu/6kcjE70HDYiBGN27Z/QG71KBvQGx2i\",\"updated_at\":\"2016-09-06T21:31:14.413+02:00\"},\"QH-RdiY80l7zRNf3y4bdcw\":{\"token\":\"$2a$10$cYiaoO3kY1Cp7yphF7cN6e4ml8kxttnC7AUh3cpYUyiLxhz4l4mkK\",\"expiry\":1474399878,\"last_token\":\"$2a$10$uPEcLMT9ORR0grp6RgON6.9aWZE.qkVcU9TvLG1/fgxQTjFBC4HSi\",\"updated_at\":\"2016-09-06T21:31:18.874+02:00\"}}"], ["updated_at", "2016-09-06 19:31:18.875238"], ["id", 1]]
+  [1m[36m (1.9ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 214ms (Views: 0.2ms | ActiveRecord: 6.7ms)
+
+
+Started GET "/auth/validate_token?uid=yamen@gmail.com&access-token&IpN8oH_dlPBl3nD7qCnAog&client=QH-RdiY80l7zRNf3y4bdcw" for ::1 at 2016-09-06 21:33:00 +0200
+Processing by DeviseTokenAuth::TokenValidationsController#validate_token as JSON
+  Parameters: {"uid"=>"yamen@gmail.com", "access-token"=>nil, "IpN8oH_dlPBl3nD7qCnAog"=>nil, "client"=>"QH-RdiY80l7zRNf3y4bdcw", "token_validation"=>{}}
+Completed 401 Unauthorized in 15ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users"  ORDER BY "users"."id" ASC LIMIT 1[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users"  ORDER BY "users"."id" ASC LIMIT 1
+
+
+Started GET "/auth/validate_token?uid=yamen@gmail.com&access-token=IpN8oH_dlPBl3nD7qCnAog&client=QH-RdiY80l7zRNf3y4bdcw" for ::1 at 2016-09-06 21:36:34 +0200
+Processing by DeviseTokenAuth::TokenValidationsController#validate_token as JSON
+  Parameters: {"uid"=>"yamen@gmail.com", "access-token"=>"IpN8oH_dlPBl3nD7qCnAog", "client"=>"QH-RdiY80l7zRNf3y4bdcw", "token_validation"=>{}}
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."uid" = ? LIMIT 1  [["uid", "yamen@gmail.com"]]
+Completed 401 Unauthorized in 74ms (Views: 0.2ms | ActiveRecord: 0.5ms)
+
+
+Started POST "/auth/sign_in" for ::1 at 2016-09-06 21:37:39 +0200
+Processing by DeviseTokenAuth::SessionsController#create as JSON
+  Parameters: {"email"=>"yamen@gmail.com", "password"=>"[FILTERED]", "session"=>{"email"=>"yamen@gmail.com", "password"=>"[FILTERED]"}}
+Can't verify CSRF token authenticity
+Unpermitted parameter: session
+Unpermitted parameter: session
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE (email = 'yamen@gmail.com' AND provider='email')  ORDER BY "users"."id" ASC LIMIT 1[0m
+Unpermitted parameter: session
+Unpermitted parameter: session
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$8pnowDi3WdIL1Lbi3.IQguQ3nd0oyr1SBR7J12JmN64qHJPtA97j.\",\"expiry\":1474399526,\"last_token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"updated_at\":\"2016-09-06T21:25:26.686+02:00\"},\"JsBoMlg1NcTy4gO4pQY1gA\":{\"token\":\"$2a$10$Jy6wacpFyyUmaRNhd1tqwObonnRsoP4.blvH4fl.N7ggrCSjPHHF.\",\"expiry\":1474399715,\"last_token\":\"$2a$10$stLlW7K8vAwQkHC1W8BCCeKpZbLwP0tzQFLvmEOzaZV.hQjqO4KBW\",\"updated_at\":\"2016-09-06T21:28:35.624+02:00\"},\"7rhH8nAkiLluXMFdDJ7uPQ\":{\"token\":\"$2a$10$Sj2gVQeBYi4OSsj1mbSPEu09iqGLyrAhv2m0iIOSCG43ws3n08ixW\",\"expiry\":1474399874,\"last_token\":\"$2a$10$Haes865mMv6FSBV4zuBReu/6kcjE70HDYiBGN27Z/QG71KBvQGx2i\",\"updated_at\":\"2016-09-06T21:31:14.413+02:00\"},\"QH-RdiY80l7zRNf3y4bdcw\":{\"token\":\"$2a$10$cYiaoO3kY1Cp7yphF7cN6e4ml8kxttnC7AUh3cpYUyiLxhz4l4mkK\",\"expiry\":1474399878,\"last_token\":\"$2a$10$uPEcLMT9ORR0grp6RgON6.9aWZE.qkVcU9TvLG1/fgxQTjFBC4HSi\",\"updated_at\":\"2016-09-06T21:31:18.874+02:00\"},\"K9gQTCrUcOVLOJPbp-4b1Q\":{\"token\":\"$2a$10$pi/20pkxMEw5cY8hRbBm2.yN58atGEYyYHlXqTl0n2ymFVl6esu8i\",\"expiry\":1474400259}}"], ["updated_at", "2016-09-06 19:37:39.806510"], ["id", 1]]
+  [1m[35m (1.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "users" SET "last_sign_in_at" = ?, "current_sign_in_at" = ?, "sign_in_count" = ?, "updated_at" = ? WHERE "users"."id" = ?  [["last_sign_in_at", "2016-09-06 19:31:18.803996"], ["current_sign_in_at", "2016-09-06 19:37:39.810968"], ["sign_in_count", 4], ["updated_at", "2016-09-06 19:37:39.811945"], ["id", 1]]
+  [1m[36m (1.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1 [0m  [["id", 1]]
+  [1m[35mSQL (0.2ms)[0m  UPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$8pnowDi3WdIL1Lbi3.IQguQ3nd0oyr1SBR7J12JmN64qHJPtA97j.\",\"expiry\":1474399526,\"last_token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"updated_at\":\"2016-09-06T21:25:26.686+02:00\"},\"JsBoMlg1NcTy4gO4pQY1gA\":{\"token\":\"$2a$10$Jy6wacpFyyUmaRNhd1tqwObonnRsoP4.blvH4fl.N7ggrCSjPHHF.\",\"expiry\":1474399715,\"last_token\":\"$2a$10$stLlW7K8vAwQkHC1W8BCCeKpZbLwP0tzQFLvmEOzaZV.hQjqO4KBW\",\"updated_at\":\"2016-09-06T21:28:35.624+02:00\"},\"7rhH8nAkiLluXMFdDJ7uPQ\":{\"token\":\"$2a$10$Sj2gVQeBYi4OSsj1mbSPEu09iqGLyrAhv2m0iIOSCG43ws3n08ixW\",\"expiry\":1474399874,\"last_token\":\"$2a$10$Haes865mMv6FSBV4zuBReu/6kcjE70HDYiBGN27Z/QG71KBvQGx2i\",\"updated_at\":\"2016-09-06T21:31:14.413+02:00\"},\"QH-RdiY80l7zRNf3y4bdcw\":{\"token\":\"$2a$10$cYiaoO3kY1Cp7yphF7cN6e4ml8kxttnC7AUh3cpYUyiLxhz4l4mkK\",\"expiry\":1474399878,\"last_token\":\"$2a$10$uPEcLMT9ORR0grp6RgON6.9aWZE.qkVcU9TvLG1/fgxQTjFBC4HSi\",\"updated_at\":\"2016-09-06T21:31:18.874+02:00\"},\"K9gQTCrUcOVLOJPbp-4b1Q\":{\"token\":\"$2a$10$b3gmXD9K8p7.mTtWrNWp0Ou50D.kjhU7nII4U8/EtFU7MNiMiIOoW\",\"expiry\":1474400259,\"last_token\":\"$2a$10$pi/20pkxMEw5cY8hRbBm2.yN58atGEYyYHlXqTl0n2ymFVl6esu8i\",\"updated_at\":\"2016-09-06T21:37:39.879+02:00\"}}"], ["updated_at", "2016-09-06 19:37:39.880179"], ["id", 1]]
+  [1m[36m (2.0ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 212ms (Views: 0.2ms | ActiveRecord: 6.4ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users"  ORDER BY "users"."id" ASC LIMIT 1[0m
+
+
+Started GET "/auth/validate_token?uid=yamen@gmail.com&access-token=keiKWhwcXt81F4GDqe5fNQ&client=K9gQTCrUcOVLOJPbp-4b1Q" for ::1 at 2016-09-06 21:39:14 +0200
+Processing by DeviseTokenAuth::TokenValidationsController#validate_token as JSON
+  Parameters: {"uid"=>"yamen@gmail.com", "access-token"=>"keiKWhwcXt81F4GDqe5fNQ", "client"=>"K9gQTCrUcOVLOJPbp-4b1Q", "token_validation"=>{}}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."uid" = ? LIMIT 1  [["uid", "yamen@gmail.com"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1   [["id", 1]]
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "users" SET "tokens" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["tokens", "{\"0dcKvBE8RcWTrfDFbes_cg\":{\"token\":\"$2a$10$8pnowDi3WdIL1Lbi3.IQguQ3nd0oyr1SBR7J12JmN64qHJPtA97j.\",\"expiry\":1474399526,\"last_token\":\"$2a$10$mWFDbASTs0uaBmPQBOEGxOjHEXBUUhHDMLuSBtIEk50TOkcMPfuMG\",\"updated_at\":\"2016-09-06T21:25:26.686+02:00\"},\"JsBoMlg1NcTy4gO4pQY1gA\":{\"token\":\"$2a$10$Jy6wacpFyyUmaRNhd1tqwObonnRsoP4.blvH4fl.N7ggrCSjPHHF.\",\"expiry\":1474399715,\"last_token\":\"$2a$10$stLlW7K8vAwQkHC1W8BCCeKpZbLwP0tzQFLvmEOzaZV.hQjqO4KBW\",\"updated_at\":\"2016-09-06T21:28:35.624+02:00\"},\"7rhH8nAkiLluXMFdDJ7uPQ\":{\"token\":\"$2a$10$Sj2gVQeBYi4OSsj1mbSPEu09iqGLyrAhv2m0iIOSCG43ws3n08ixW\",\"expiry\":1474399874,\"last_token\":\"$2a$10$Haes865mMv6FSBV4zuBReu/6kcjE70HDYiBGN27Z/QG71KBvQGx2i\",\"updated_at\":\"2016-09-06T21:31:14.413+02:00\"},\"QH-RdiY80l7zRNf3y4bdcw\":{\"token\":\"$2a$10$cYiaoO3kY1Cp7yphF7cN6e4ml8kxttnC7AUh3cpYUyiLxhz4l4mkK\",\"expiry\":1474399878,\"last_token\":\"$2a$10$uPEcLMT9ORR0grp6RgON6.9aWZE.qkVcU9TvLG1/fgxQTjFBC4HSi\",\"updated_at\":\"2016-09-06T21:31:18.874+02:00\"},\"K9gQTCrUcOVLOJPbp-4b1Q\":{\"token\":\"$2a$10$OmMzrPcOH352.VHgm1CTG.mgQGsxHIH1.FPfOWKdiEJ97rEzQofe.\",\"expiry\":1474400354,\"last_token\":\"$2a$10$b3gmXD9K8p7.mTtWrNWp0Ou50D.kjhU7nII4U8/EtFU7MNiMiIOoW\",\"updated_at\":\"2016-09-06T21:39:14.235+02:00\"}}"], ["updated_at", "2016-09-06 19:39:14.237001"], ["id", 1]]
+  [1m[35m (1.7ms)[0m  commit transaction
+Completed 200 OK in 145ms (Views: 0.3ms | ActiveRecord: 2.3ms)
