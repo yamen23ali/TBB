@@ -1138,3 +1138,44 @@ WHERE c.contype = 'f'
   AND t3.nspname = ANY (current_schemas(false))
 ORDER BY c.conname
 [0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (1.2ms)[0m  [1mINSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "image"], ["created_at", "2016-09-08 20:08:02.626680"], ["updated_at", "2016-09-08 20:08:02.626680"]]
+  [1m[35m (1.9ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["name", "audio"], ["created_at", "2016-09-08 20:08:02.633037"], ["updated_at", "2016-09-08 20:08:02.633037"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[36mUser Load (1.0ms)[0m  [1mSELECT  "users".* FROM "users"  ORDER BY "users"."id" ASC LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "tours" ("title", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["title", "test"], ["created_at", "2016-09-08 20:09:19.402228"], ["updated_at", "2016-09-08 20:09:19.402228"]]
+  [1m[35m (2.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (4.4ms)[0m  INSERT INTO "attachments" ("url", "attachment_type_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["url", "image test1"], ["attachment_type_id", 1], ["created_at", "2016-09-08 20:14:35.467258"], ["updated_at", "2016-09-08 20:14:35.467258"]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "attachments" ("url", "attachment_type_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["url", "image test2"], ["attachment_type_id", 1], ["created_at", "2016-09-08 20:14:56.901673"], ["updated_at", "2016-09-08 20:14:56.901673"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "attachments" ("url", "attachment_type_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["url", "audio test2"], ["attachment_type_id", 2], ["created_at", "2016-09-08 20:15:17.628817"], ["updated_at", "2016-09-08 20:15:17.628817"]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35mTouristAttraction Load (0.4ms)[0m  SELECT  "tourist_attractions".* FROM "tourist_attractions"  ORDER BY "tourist_attractions"."id" ASC LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "tourist_attractions" ("title", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["title", "test"], ["created_at", "2016-09-08 20:16:05.848384"], ["updated_at", "2016-09-08 20:16:05.848384"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35mAttachment Load (0.5ms)[0m  SELECT "attachments".* FROM "attachments"
+  [1m[36mAttachment Load (0.2ms)[0m  [1mSELECT  "attachments".* FROM "attachments" WHERE "attachments"."id" = $1 LIMIT 1[0m  [["id", nil]]
+  [1m[35mAttachment Load (0.4ms)[0m  SELECT  "attachments".* FROM "attachments" WHERE "attachments"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  UPDATE "attachments" SET "tourist_attraction_id" = $1, "updated_at" = $2 WHERE "attachments"."id" = $3  [["tourist_attraction_id", 1], ["updated_at", "2016-09-08 20:17:29.774615"], ["id", 1]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35mAttachment Load (0.4ms)[0m  SELECT  "attachments".* FROM "attachments" WHERE "attachments"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  UPDATE "attachments" SET "tourist_attraction_id" = $1, "updated_at" = $2 WHERE "attachments"."id" = $3  [["tourist_attraction_id", 1], ["updated_at", "2016-09-08 20:17:43.063442"], ["id", 2]]
+  [1m[36m (1.5ms)[0m  [1mCOMMIT[0m
+  [1m[35mAttachment Load (0.4ms)[0m  SELECT  "attachments".* FROM "attachments" WHERE "attachments"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  UPDATE "attachments" SET "tourist_attraction_id" = $1, "updated_at" = $2 WHERE "attachments"."id" = $3  [["tourist_attraction_id", 1], ["updated_at", "2016-09-08 20:17:51.851480"], ["id", 3]]
+  [1m[36m (1.5ms)[0m  [1mCOMMIT[0m
+  [1m[35mTouristAttraction Load (0.5ms)[0m  SELECT  "tourist_attractions".* FROM "tourist_attractions"  ORDER BY "tourist_attractions"."id" ASC LIMIT 1
+  [1m[36mAttachment Load (0.2ms)[0m  [1mSELECT "attachments".* FROM "attachments" WHERE "attachments"."tourist_attraction_id" = $1 AND "attachments"."attachment_type_id" = 1[0m  [["tourist_attraction_id", 1]]
+  [1m[35mAttachment Load (0.2ms)[0m  SELECT "attachments".* FROM "attachments" WHERE "attachments"."tourist_attraction_id" = $1 AND "attachments"."attachment_type_id" = 2  [["tourist_attraction_id", 1]]
