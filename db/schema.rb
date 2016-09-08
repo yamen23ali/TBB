@@ -11,7 +11,97 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160906190409) do
+ActiveRecord::Schema.define(version: 20160908200044) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "attachment_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "attachments", force: :cascade do |t|
+    t.text     "url"
+    t.integer  "tourist_attraction_id"
+    t.integer  "tourist_attraction_detail_id"
+    t.integer  "attachment_type_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "attachments", ["attachment_type_id"], name: "index_attachments_on_attachment_type_id", using: :btree
+  add_index "attachments", ["tourist_attraction_detail_id"], name: "index_attachments_on_tourist_attraction_detail_id", using: :btree
+  add_index "attachments", ["tourist_attraction_id"], name: "index_attachments_on_tourist_attraction_id", using: :btree
+
+  create_table "cities", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "country_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "cities", ["country_id"], name: "index_cities_on_country_id", using: :btree
+
+  create_table "countries", force: :cascade do |t|
+    t.string   "name"
+    t.string   "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.string   "title"
+    t.text     "content"
+    t.float    "score"
+    t.integer  "tour_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "reviews", ["tour_id"], name: "index_reviews_on_tour_id", using: :btree
+  add_index "reviews", ["user_id"], name: "index_reviews_on_user_id", using: :btree
+
+  create_table "tourist_attraction_details", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "tourist_attraction_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "tourist_attraction_details", ["tourist_attraction_id"], name: "index_tourist_attraction_details_on_tourist_attraction_id", using: :btree
+
+  create_table "tourist_attractions", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.text     "trans_info"
+    t.text     "address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "tour_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "tourist_attractions", ["tour_id"], name: "index_tourist_attractions_on_tour_id", using: :btree
+
+  create_table "tours", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "city_id"
+    t.float    "price"
+    t.integer  "user_id"
+    t.string   "estimated_time"
+    t.boolean  "is_trans_included"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "tours", ["city_id"], name: "index_tours_on_city_id", using: :btree
+  add_index "tours", ["user_id"], name: "index_tours_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               default: "email", null: false
@@ -38,8 +128,18 @@ ActiveRecord::Schema.define(version: 20160906190409) do
     t.datetime "updated_at"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email"
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
+  add_foreign_key "attachments", "attachment_types"
+  add_foreign_key "attachments", "tourist_attraction_details"
+  add_foreign_key "attachments", "tourist_attractions"
+  add_foreign_key "cities", "countries"
+  add_foreign_key "reviews", "tours"
+  add_foreign_key "reviews", "users"
+  add_foreign_key "tourist_attraction_details", "tourist_attractions"
+  add_foreign_key "tourist_attractions", "tours"
+  add_foreign_key "tours", "cities"
+  add_foreign_key "tours", "users"
 end
