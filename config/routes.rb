@@ -9,14 +9,15 @@ Rails.application.routes.draw do
   resources :tours do
   	member do
       get 'attractions'
+      get 'reviews'
     end
   end
 
-  resources :tourist_attractions do
+  resources :attractions do
   	member do
       get 'details'
     end
   end
 
-  resources :tourist_attraction_details 
+  resources :attraction_details 
 end

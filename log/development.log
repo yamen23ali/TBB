@@ -2689,3 +2689,1648 @@ Processing by ToursController#attractions as */*
   Rendered tourist_attractions/_tourist_attraction.json.jbuilder (15.2ms)
   Rendered tours/attractions.json.jbuilder (22.4ms)
 Completed 200 OK in 47ms (Views: 26.1ms | ActiveRecord: 7.0ms)
+  [1m[36m (35.7ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL) [0m
+  [1m[35m (4.0ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to DeviseTokenAuthCreateUsers (20160906190409)
+  [1m[35m (0.1ms)[0m  BEGIN
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/yali/My_apps/TBB/db/migrate/20160906190409_devise_token_auth_create_users.rb:45)
+  [1m[36m (29.3ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "provider" character varying DEFAULT 'email' NOT NULL, "uid" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying, "last_sign_in_ip" character varying, "confirmation_token" character varying, "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying, "name" character varying, "nickname" character varying, "image" character varying, "email" character varying, "tokens" text, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (2.0ms)[0m  CREATE  INDEX  "index_users_on_email" ON "users"  ("email")
+  [1m[36m (2.0ms)[0m  [1mCREATE UNIQUE INDEX  "index_users_on_uid_and_provider" ON "users"  ("uid", "provider")[0m
+  [1m[35m (2.0ms)[0m  CREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160906190409"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+Migrating to CreateCountries (20160908183624)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.1ms)[0m  CREATE TABLE "countries" ("id" serial primary key, "name" character varying, "code" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908183624"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+Migrating to CreateCities (20160908190656)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.9ms)[0m  CREATE TABLE "cities" ("id" serial primary key, "name" character varying, "country_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.6ms)[0m  [1mCREATE  INDEX  "index_cities_on_country_id" ON "cities"  ("country_id")[0m
+  [1m[35m (11.2ms)[0m  ALTER TABLE "cities" ADD CONSTRAINT "fk_rails_996e05be41"
+FOREIGN KEY ("country_id")
+  REFERENCES "countries" ("id")
+
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908190656"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+Migrating to CreateTours (20160908191604)
+  [1m[36m (0.9ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.3ms)[0m  CREATE TABLE "tours" ("id" serial primary key, "title" character varying, "description" text, "city_id" integer, "price" float, "user_id" integer, "estimated_time" character varying, "is_trans_included" boolean, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.9ms)[0m  [1mCREATE  INDEX  "index_tours_on_city_id" ON "tours"  ("city_id")[0m
+  [1m[35m (2.0ms)[0m  CREATE  INDEX  "index_tours_on_user_id" ON "tours"  ("user_id")
+  [1m[36m (1.3ms)[0m  [1mALTER TABLE "tours" ADD CONSTRAINT "fk_rails_12295a7603"
+FOREIGN KEY ("city_id")
+  REFERENCES "cities" ("id")
+[0m
+  [1m[35m (1.4ms)[0m  ALTER TABLE "tours" ADD CONSTRAINT "fk_rails_644aa67ccf"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908191604"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+Migrating to CreateAttractions (20160908192636)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.6ms)[0m  CREATE TABLE "attractions" ("id" serial primary key, "title" character varying, "description" text, "trans_info" text, "address" text, "latitude" float, "longitude" float, "tour_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.9ms)[0m  [1mCREATE  INDEX  "index_attractions_on_tour_id" ON "attractions"  ("tour_id")[0m
+  [1m[35m (2.4ms)[0m  ALTER TABLE "attractions" ADD CONSTRAINT "fk_rails_00ad253492"
+FOREIGN KEY ("tour_id")
+  REFERENCES "tours" ("id")
+
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908192636"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+Migrating to CreateAttractionDetails (20160908194945)
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35m (7.4ms)[0m  CREATE TABLE "attraction_details" ("id" serial primary key, "title" character varying, "description" text, "attraction_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.7ms)[0m  [1mCREATE  INDEX  "index_attraction_details_on_attraction_id" ON "attraction_details"  ("attraction_id")[0m
+  [1m[35m (1.3ms)[0m  ALTER TABLE "attraction_details" ADD CONSTRAINT "fk_rails_d4d33a46b6"
+FOREIGN KEY ("attraction_id")
+  REFERENCES "attractions" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908194945"]]
+  [1m[35m (1.5ms)[0m  COMMIT
+Migrating to CreateAttachmentTypes (20160908195750)
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.8ms)[0m  CREATE TABLE "attachment_types" ("id" serial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908195750"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+Migrating to CreateAttachments (20160908195840)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.4ms)[0m  CREATE TABLE "attachments" ("id" serial primary key, "url" text, "attraction_id" integer, "attraction_detail_id" integer, "attachment_type_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.0ms)[0m  [1mCREATE  INDEX  "index_attachments_on_attraction_id" ON "attachments"  ("attraction_id")[0m
+  [1m[35m (2.3ms)[0m  CREATE  INDEX  "index_attachments_on_attraction_detail_id" ON "attachments"  ("attraction_detail_id")
+  [1m[36m (2.1ms)[0m  [1mCREATE  INDEX  "index_attachments_on_attachment_type_id" ON "attachments"  ("attachment_type_id")[0m
+  [1m[35m (1.2ms)[0m  ALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_9bcf8e3e28"
+FOREIGN KEY ("attraction_id")
+  REFERENCES "attractions" ("id")
+
+  [1m[36m (0.9ms)[0m  [1mALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_5e066cddaa"
+FOREIGN KEY ("attraction_detail_id")
+  REFERENCES "attraction_details" ("id")
+[0m
+  [1m[35m (0.8ms)[0m  ALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_54afe13733"
+FOREIGN KEY ("attachment_type_id")
+  REFERENCES "attachment_types" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908195840"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+Migrating to CreateReviews (20160908200044)
+  [1m[36m (0.5ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.5ms)[0m  CREATE TABLE "reviews" ("id" serial primary key, "title" character varying, "content" text, "score" float, "tour_id" integer, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.9ms)[0m  [1mCREATE  INDEX  "index_reviews_on_tour_id" ON "reviews"  ("tour_id")[0m
+  [1m[35m (2.1ms)[0m  CREATE  INDEX  "index_reviews_on_user_id" ON "reviews"  ("user_id")
+  [1m[36m (1.3ms)[0m  [1mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_cbf2a12b63"
+FOREIGN KEY ("tour_id")
+  REFERENCES "tours" ("id")
+[0m
+  [1m[35m (0.8ms)[0m  ALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_74a66bd6c5"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908200044"]]
+  [1m[35m (1.7ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (2.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attachment_types'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.6ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attachments'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attraction_details'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attractions'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.4ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'cities'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.4ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'countries'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'reviews'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.6ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'tours'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (2.1ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (1.6ms)[0m  [1mINSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "image"], ["created_at", "2016-09-10 15:38:16.836426"], ["updated_at", "2016-09-10 15:38:16.836426"]]
+  [1m[35m (2.0ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["name", "audio"], ["created_at", "2016-09-10 15:38:16.844723"], ["updated_at", "2016-09-10 15:38:16.844723"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Syria"], ["code", "SY"], ["created_at", "2016-09-10 15:38:16.853532"], ["updated_at", "2016-09-10 15:38:16.853532"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Germany"], ["code", "DE"], ["created_at", "2016-09-10 15:38:16.857292"], ["updated_at", "2016-09-10 15:38:16.857292"]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "USA"], ["code", "US"], ["created_at", "2016-09-10 15:38:16.859893"], ["updated_at", "2016-09-10 15:38:16.859893"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (2.0ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Damascus"], ["country_id", 1], ["created_at", "2016-09-10 15:38:16.881310"], ["updated_at", "2016-09-10 15:38:16.881310"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Berlin"], ["country_id", 2], ["created_at", "2016-09-10 15:38:16.886354"], ["updated_at", "2016-09-10 15:38:16.886354"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "NY"], ["country_id", 3], ["created_at", "2016-09-10 15:38:16.889164"], ["updated_at", "2016-09-10 15:38:16.889164"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (2.7ms)[0m  [1mSELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL[0m  [["provider", "email"]]
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "image"], ["created_at", "2016-09-10 15:38:46.286191"], ["updated_at", "2016-09-10 15:38:46.286191"]]
+  [1m[35m (2.0ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["name", "audio"], ["created_at", "2016-09-10 15:38:46.291882"], ["updated_at", "2016-09-10 15:38:46.291882"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Syria"], ["code", "SY"], ["created_at", "2016-09-10 15:38:46.299331"], ["updated_at", "2016-09-10 15:38:46.299331"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Germany"], ["code", "DE"], ["created_at", "2016-09-10 15:38:46.302290"], ["updated_at", "2016-09-10 15:38:46.302290"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "USA"], ["code", "US"], ["created_at", "2016-09-10 15:38:46.304856"], ["updated_at", "2016-09-10 15:38:46.304856"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Damascus"], ["country_id", 4], ["created_at", "2016-09-10 15:38:46.316596"], ["updated_at", "2016-09-10 15:38:46.316596"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Berlin"], ["country_id", 5], ["created_at", "2016-09-10 15:38:46.319863"], ["updated_at", "2016-09-10 15:38:46.319863"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "NY"], ["country_id", 6], ["created_at", "2016-09-10 15:38:46.322627"], ["updated_at", "2016-09-10 15:38:46.322627"]]
+  [1m[36m (1.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL[0m  [["provider", "email"]]
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL  [["provider", "email"]]
+  [1m[36mSQL (2.2ms)[0m  [1mINSERT INTO "tours" ("title", "description", "price", "is_trans_included", "estimated_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["title", "Test Tour"], ["description", "This is test tour"], ["price", 10.0], ["is_trans_included", "t"], ["estimated_time", "10 Hours"], ["created_at", "2016-09-10 15:38:46.369218"], ["updated_at", "2016-09-10 15:38:46.369218"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.9ms)[0m  INSERT INTO "attractions" ("title", "description", "address", "trans_info", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["title", "Test Attraction"], ["description", "So cool att"], ["address", "Genslerstraße 55, 13055 Berlin"], ["trans_info", "Take M13 for 10 stops"], ["created_at", "2016-09-10 15:38:46.391482"], ["updated_at", "2016-09-10 15:38:46.391482"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (1.8ms)[0m  [1mINSERT INTO "attraction_details" ("title", "description", "attraction_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Test AD"], ["description", "Nice detail"], ["attraction_id", 1], ["created_at", "2016-09-10 15:38:46.403701"], ["updated_at", "2016-09-10 15:38:46.403701"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (3.0ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 3], ["attraction_id", 1], ["url", "Image Url1 for att"], ["created_at", "2016-09-10 15:38:46.416270"], ["updated_at", "2016-09-10 15:38:46.416270"]]
+  [1m[36m (1.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 3], ["attraction_id", 1], ["url", "Image Url2 for att"], ["created_at", "2016-09-10 15:38:46.422620"], ["updated_at", "2016-09-10 15:38:46.422620"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 4], ["attraction_id", 1], ["url", "Audio Url1 for att"], ["created_at", "2016-09-10 15:38:46.426204"], ["updated_at", "2016-09-10 15:38:46.426204"]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 4], ["attraction_id", 1], ["url", "Audio Url2 for att"], ["created_at", "2016-09-10 15:38:46.430734"], ["updated_at", "2016-09-10 15:38:46.430734"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "image"], ["created_at", "2016-09-10 15:39:22.952751"], ["updated_at", "2016-09-10 15:39:22.952751"]]
+  [1m[35m (1.9ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["name", "audio"], ["created_at", "2016-09-10 15:39:22.958456"], ["updated_at", "2016-09-10 15:39:22.958456"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Syria"], ["code", "SY"], ["created_at", "2016-09-10 15:39:22.965729"], ["updated_at", "2016-09-10 15:39:22.965729"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Germany"], ["code", "DE"], ["created_at", "2016-09-10 15:39:22.968670"], ["updated_at", "2016-09-10 15:39:22.968670"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "USA"], ["code", "US"], ["created_at", "2016-09-10 15:39:22.971397"], ["updated_at", "2016-09-10 15:39:22.971397"]]
+  [1m[35m (1.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Damascus"], ["country_id", 7], ["created_at", "2016-09-10 15:39:22.983470"], ["updated_at", "2016-09-10 15:39:22.983470"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Berlin"], ["country_id", 8], ["created_at", "2016-09-10 15:39:22.986773"], ["updated_at", "2016-09-10 15:39:22.986773"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "NY"], ["country_id", 9], ["created_at", "2016-09-10 15:39:22.989655"], ["updated_at", "2016-09-10 15:39:22.989655"]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL[0m  [["provider", "email"]]
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL  [["provider", "email"]]
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "tours" ("title", "description", "price", "is_trans_included", "estimated_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["title", "Test Tour"], ["description", "This is test tour"], ["price", 10.0], ["is_trans_included", "t"], ["estimated_time", "10 Hours"], ["created_at", "2016-09-10 15:39:23.035308"], ["updated_at", "2016-09-10 15:39:23.035308"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attractions" ("title", "description", "address", "trans_info", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["title", "Test Attraction"], ["description", "So cool att"], ["address", "Genslerstraße 55, 13055 Berlin"], ["trans_info", "Take M13 for 10 stops"], ["created_at", "2016-09-10 15:39:23.052437"], ["updated_at", "2016-09-10 15:39:23.052437"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "attraction_details" ("title", "description", "attraction_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Test AD"], ["description", "Nice detail"], ["attraction_id", 2], ["created_at", "2016-09-10 15:39:23.062679"], ["updated_at", "2016-09-10 15:39:23.062679"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 5], ["attraction_id", 2], ["url", "Image Url1 for att"], ["created_at", "2016-09-10 15:39:23.073263"], ["updated_at", "2016-09-10 15:39:23.073263"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 5], ["attraction_id", 2], ["url", "Image Url2 for att"], ["created_at", "2016-09-10 15:39:23.076790"], ["updated_at", "2016-09-10 15:39:23.076790"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 6], ["attraction_id", 2], ["url", "Audio Url1 for att"], ["created_at", "2016-09-10 15:39:23.080397"], ["updated_at", "2016-09-10 15:39:23.080397"]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 6], ["attraction_id", 2], ["url", "Audio Url2 for att"], ["created_at", "2016-09-10 15:39:23.084995"], ["updated_at", "2016-09-10 15:39:23.084995"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_detail_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 5], ["attraction_detail_id", 2], ["url", "Image Url1 for attd"], ["created_at", "2016-09-10 15:39:23.089965"], ["updated_at", "2016-09-10 15:39:23.089965"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_detail_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 6], ["attraction_detail_id", 2], ["url", "Audio Url2 for attd"], ["created_at", "2016-09-10 15:39:23.093280"], ["updated_at", "2016-09-10 15:39:23.093280"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL  [["provider", "email"]]
+  [1m[36mSQL (2.4ms)[0m  [1mINSERT INTO "reviews" ("title", "content", "score", "tour_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Nice job"], ["content", "good"], ["score", 10.0], ["tour_id", 2], ["created_at", "2016-09-10 15:39:23.107602"], ["updated_at", "2016-09-10 15:39:23.107602"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+
+
+Started GET "/tours/1/attractions" for ::1 at 2016-09-10 17:39:29 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ToursController#attractions as */*
+  Parameters: {"id"=>"1"}
+  [1m[35mTour Load (0.5ms)[0m  SELECT  "tours".* FROM "tours" WHERE "tours"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered tours/attractions.json.jbuilder (6.1ms)
+Completed 200 OK in 106ms (Views: 27.5ms | ActiveRecord: 6.3ms)
+
+
+Started GET "/tours/" for ::1 at 2016-09-10 17:39:37 +0200
+Processing by ToursController#index as */*
+  [1m[36mTour Load (0.7ms)[0m  [1mSELECT "tours".* FROM "tours"[0m
+  Rendered tours/_tour.json.jbuilder (9.8ms)
+  Rendered tours/index.json.jbuilder (19.0ms)
+Completed 500 Internal Server Error in 35ms (ActiveRecord: 0.7ms)
+
+ActionView::Template::Error (undefined method `name' for nil:NilClass):
+    1: json.extract! tour, :id, :title, :description, :price, :estimated_time, :is_trans_included, :created_at
+    2: 
+    3: json.city tour.city.name
+    4: json.country tour.city.country.name
+  app/views/tours/_tour.json.jbuilder:3:in `_app_views_tours__tour_json_jbuilder__221589044664572084_70200503207400'
+  app/views/tours/index.json.jbuilder:1:in `_app_views_tours_index_json_jbuilder__1752020410622678615_70200503369940'
+  app/controllers/tours_controller.rb:10:in `index'
+
+
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (7.1ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.9ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (58.6ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (56.8ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (106.1ms)
+
+
+Started GET "/tours" for ::1 at 2016-09-10 17:39:42 +0200
+Processing by ToursController#index as */*
+  [1m[35mTour Load (0.3ms)[0m  SELECT "tours".* FROM "tours"
+  Rendered tours/_tour.json.jbuilder (3.2ms)
+  Rendered tours/index.json.jbuilder (5.2ms)
+Completed 500 Internal Server Error in 21ms (ActiveRecord: 0.3ms)
+
+ActionView::Template::Error (undefined method `name' for nil:NilClass):
+    1: json.extract! tour, :id, :title, :description, :price, :estimated_time, :is_trans_included, :created_at
+    2: 
+    3: json.city tour.city.name
+    4: json.country tour.city.country.name
+  app/views/tours/_tour.json.jbuilder:3:in `_app_views_tours__tour_json_jbuilder__221589044664572084_70200503207400'
+  app/views/tours/index.json.jbuilder:1:in `_app_views_tours_index_json_jbuilder__1752020410622678615_70200503369940'
+  app/controllers/tours_controller.rb:10:in `index'
+
+
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (10.2ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.8ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (52.1ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (40.4ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (83.1ms)
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (2.0ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attachment_types'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (2.3ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attachments'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attraction_details'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.4ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attractions'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.4ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'cities'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.7ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'countries'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.7ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'reviews'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.6ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'tours'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.7ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (2.4ms)[0m  INSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["name", "image"], ["created_at", "2016-09-10 15:40:36.156545"], ["updated_at", "2016-09-10 15:40:36.156545"]]
+  [1m[36m (6.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "audio"], ["created_at", "2016-09-10 15:40:36.169410"], ["updated_at", "2016-09-10 15:40:36.169410"]]
+  [1m[35m (4.9ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (2.6ms)[0m  INSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Syria"], ["code", "SY"], ["created_at", "2016-09-10 15:40:36.182742"], ["updated_at", "2016-09-10 15:40:36.182742"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Germany"], ["code", "DE"], ["created_at", "2016-09-10 15:40:36.188294"], ["updated_at", "2016-09-10 15:40:36.188294"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "USA"], ["code", "US"], ["created_at", "2016-09-10 15:40:36.191572"], ["updated_at", "2016-09-10 15:40:36.191572"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (3.3ms)[0m  [1mINSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Damascus"], ["country_id", 10], ["created_at", "2016-09-10 15:40:36.204582"], ["updated_at", "2016-09-10 15:40:36.204582"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Berlin"], ["country_id", 11], ["created_at", "2016-09-10 15:40:36.210859"], ["updated_at", "2016-09-10 15:40:36.210859"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "NY"], ["country_id", 12], ["created_at", "2016-09-10 15:40:36.213797"], ["updated_at", "2016-09-10 15:40:36.213797"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.4ms)[0m  SELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL  [["provider", "email"]]
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL[0m  [["provider", "email"]]
+  [1m[35mSQL (3.0ms)[0m  INSERT INTO "tours" ("title", "description", "price", "is_trans_included", "estimated_time", "city_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"  [["title", "Test Tour"], ["description", "This is test tour"], ["price", 10.0], ["is_trans_included", "t"], ["estimated_time", "10 Hours"], ["city_id", 10], ["created_at", "2016-09-10 15:40:36.258386"], ["updated_at", "2016-09-10 15:40:36.258386"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (2.4ms)[0m  [1mINSERT INTO "attractions" ("title", "description", "address", "trans_info", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Test Attraction"], ["description", "So cool att"], ["address", "Genslerstraße 55, 13055 Berlin"], ["trans_info", "Take M13 for 10 stops"], ["created_at", "2016-09-10 15:40:36.282449"], ["updated_at", "2016-09-10 15:40:36.282449"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (4.0ms)[0m  INSERT INTO "attraction_details" ("title", "description", "attraction_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["title", "Test AD"], ["description", "Nice detail"], ["attraction_id", 3], ["created_at", "2016-09-10 15:40:36.294963"], ["updated_at", "2016-09-10 15:40:36.294963"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (11.1ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 7], ["attraction_id", 3], ["url", "Image Url1 for att"], ["created_at", "2016-09-10 15:40:36.311417"], ["updated_at", "2016-09-10 15:40:36.311417"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 7], ["attraction_id", 3], ["url", "Image Url2 for att"], ["created_at", "2016-09-10 15:40:36.325562"], ["updated_at", "2016-09-10 15:40:36.325562"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 8], ["attraction_id", 3], ["url", "Audio Url1 for att"], ["created_at", "2016-09-10 15:40:36.328511"], ["updated_at", "2016-09-10 15:40:36.328511"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 8], ["attraction_id", 3], ["url", "Audio Url2 for att"], ["created_at", "2016-09-10 15:40:36.331610"], ["updated_at", "2016-09-10 15:40:36.331610"]]
+  [1m[36m (1.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (1.5ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_detail_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 7], ["attraction_detail_id", 3], ["url", "Image Url1 for attd"], ["created_at", "2016-09-10 15:40:36.335542"], ["updated_at", "2016-09-10 15:40:36.335542"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_detail_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 8], ["attraction_detail_id", 3], ["url", "Audio Url2 for attd"], ["created_at", "2016-09-10 15:40:36.340196"], ["updated_at", "2016-09-10 15:40:36.340196"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL[0m  [["provider", "email"]]
+  [1m[35mSQL (4.4ms)[0m  INSERT INTO "reviews" ("title", "content", "score", "tour_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["title", "Nice job"], ["content", "good"], ["score", 10.0], ["tour_id", 3], ["created_at", "2016-09-10 15:40:36.352767"], ["updated_at", "2016-09-10 15:40:36.352767"]]
+  [1m[36m (1.4ms)[0m  [1mCOMMIT[0m
+  [1m[36m (34.3ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL) [0m
+  [1m[35m (2.4ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to DeviseTokenAuthCreateUsers (20160906190409)
+  [1m[35m (0.1ms)[0m  BEGIN
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/yali/My_apps/TBB/db/migrate/20160906190409_devise_token_auth_create_users.rb:45)
+  [1m[36m (24.6ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "provider" character varying DEFAULT 'email' NOT NULL, "uid" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying, "last_sign_in_ip" character varying, "confirmation_token" character varying, "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying, "name" character varying, "nickname" character varying, "image" character varying, "email" character varying, "tokens" text, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (2.0ms)[0m  CREATE  INDEX  "index_users_on_email" ON "users"  ("email")
+  [1m[36m (1.9ms)[0m  [1mCREATE UNIQUE INDEX  "index_users_on_uid_and_provider" ON "users"  ("uid", "provider")[0m
+  [1m[35m (2.0ms)[0m  CREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160906190409"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+Migrating to CreateCountries (20160908183624)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.7ms)[0m  CREATE TABLE "countries" ("id" serial primary key, "name" character varying, "code" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908183624"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+Migrating to CreateCities (20160908190656)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.8ms)[0m  CREATE TABLE "cities" ("id" serial primary key, "name" character varying, "country_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.1ms)[0m  [1mCREATE  INDEX  "index_cities_on_country_id" ON "cities"  ("country_id")[0m
+  [1m[35m (8.4ms)[0m  ALTER TABLE "cities" ADD CONSTRAINT "fk_rails_996e05be41"
+FOREIGN KEY ("country_id")
+  REFERENCES "countries" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908190656"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+Migrating to CreateTours (20160908191604)
+  [1m[36m (0.7ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.5ms)[0m  CREATE TABLE "tours" ("id" serial primary key, "title" character varying, "description" text, "city_id" integer, "price" float, "user_id" integer, "estimated_time" character varying, "is_trans_included" boolean, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.8ms)[0m  [1mCREATE  INDEX  "index_tours_on_city_id" ON "tours"  ("city_id")[0m
+  [1m[35m (2.1ms)[0m  CREATE  INDEX  "index_tours_on_user_id" ON "tours"  ("user_id")
+  [1m[36m (1.3ms)[0m  [1mALTER TABLE "tours" ADD CONSTRAINT "fk_rails_12295a7603"
+FOREIGN KEY ("city_id")
+  REFERENCES "cities" ("id")
+[0m
+  [1m[35m (1.4ms)[0m  ALTER TABLE "tours" ADD CONSTRAINT "fk_rails_644aa67ccf"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908191604"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+Migrating to CreateAttractions (20160908192636)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.2ms)[0m  CREATE TABLE "attractions" ("id" serial primary key, "title" character varying, "description" text, "trans_info" text, "address" text, "latitude" float, "longitude" float, "tour_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.8ms)[0m  [1mCREATE  INDEX  "index_attractions_on_tour_id" ON "attractions"  ("tour_id")[0m
+  [1m[35m (1.4ms)[0m  ALTER TABLE "attractions" ADD CONSTRAINT "fk_rails_00ad253492"
+FOREIGN KEY ("tour_id")
+  REFERENCES "tours" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908192636"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+Migrating to CreateAttractionDetails (20160908194945)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.3ms)[0m  CREATE TABLE "attraction_details" ("id" serial primary key, "title" character varying, "description" text, "attraction_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.4ms)[0m  [1mCREATE  INDEX  "index_attraction_details_on_attraction_id" ON "attraction_details"  ("attraction_id")[0m
+  [1m[35m (1.1ms)[0m  ALTER TABLE "attraction_details" ADD CONSTRAINT "fk_rails_d4d33a46b6"
+FOREIGN KEY ("attraction_id")
+  REFERENCES "attractions" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908194945"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+Migrating to CreateAttachmentTypes (20160908195750)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.7ms)[0m  CREATE TABLE "attachment_types" ("id" serial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908195750"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+Migrating to CreateAttachments (20160908195840)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.4ms)[0m  CREATE TABLE "attachments" ("id" serial primary key, "url" text, "attraction_id" integer, "attraction_detail_id" integer, "attachment_type_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.0ms)[0m  [1mCREATE  INDEX  "index_attachments_on_attraction_id" ON "attachments"  ("attraction_id")[0m
+  [1m[35m (1.8ms)[0m  CREATE  INDEX  "index_attachments_on_attraction_detail_id" ON "attachments"  ("attraction_detail_id")
+  [1m[36m (1.9ms)[0m  [1mCREATE  INDEX  "index_attachments_on_attachment_type_id" ON "attachments"  ("attachment_type_id")[0m
+  [1m[35m (1.6ms)[0m  ALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_9bcf8e3e28"
+FOREIGN KEY ("attraction_id")
+  REFERENCES "attractions" ("id")
+
+  [1m[36m (1.2ms)[0m  [1mALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_5e066cddaa"
+FOREIGN KEY ("attraction_detail_id")
+  REFERENCES "attraction_details" ("id")
+[0m
+  [1m[35m (0.9ms)[0m  ALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_54afe13733"
+FOREIGN KEY ("attachment_type_id")
+  REFERENCES "attachment_types" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908195840"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+Migrating to CreateReviews (20160908200044)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (8.1ms)[0m  CREATE TABLE "reviews" ("id" serial primary key, "title" character varying, "content" text, "score" float, "tour_id" integer, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.1ms)[0m  [1mCREATE  INDEX  "index_reviews_on_tour_id" ON "reviews"  ("tour_id")[0m
+  [1m[35m (1.9ms)[0m  CREATE  INDEX  "index_reviews_on_user_id" ON "reviews"  ("user_id")
+  [1m[36m (1.1ms)[0m  [1mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_cbf2a12b63"
+FOREIGN KEY ("tour_id")
+  REFERENCES "tours" ("id")
+[0m
+  [1m[35m (0.8ms)[0m  ALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_74a66bd6c5"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908200044"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (1.9ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attachment_types'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attachments'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attraction_details'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attractions'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'cities'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'countries'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (2.9ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'reviews'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (3.0ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'tours'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.9ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "image"], ["created_at", "2016-09-10 15:40:46.154337"], ["updated_at", "2016-09-10 15:40:46.154337"]]
+  [1m[35m (6.0ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["name", "audio"], ["created_at", "2016-09-10 15:40:46.162324"], ["updated_at", "2016-09-10 15:40:46.162324"]]
+  [1m[36m (6.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Syria"], ["code", "SY"], ["created_at", "2016-09-10 15:40:46.177105"], ["updated_at", "2016-09-10 15:40:46.177105"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Germany"], ["code", "DE"], ["created_at", "2016-09-10 15:40:46.180435"], ["updated_at", "2016-09-10 15:40:46.180435"]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "USA"], ["code", "US"], ["created_at", "2016-09-10 15:40:46.183237"], ["updated_at", "2016-09-10 15:40:46.183237"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Damascus"], ["country_id", 1], ["created_at", "2016-09-10 15:40:46.197177"], ["updated_at", "2016-09-10 15:40:46.197177"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Berlin"], ["country_id", 2], ["created_at", "2016-09-10 15:40:46.200616"], ["updated_at", "2016-09-10 15:40:46.200616"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "NY"], ["country_id", 3], ["created_at", "2016-09-10 15:40:46.203375"], ["updated_at", "2016-09-10 15:40:46.203375"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL[0m  [["provider", "email"]]
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL  [["provider", "email"]]
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "tours" ("title", "description", "price", "is_trans_included", "estimated_time", "city_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["title", "Test Tour"], ["description", "This is test tour"], ["price", 10.0], ["is_trans_included", "t"], ["estimated_time", "10 Hours"], ["city_id", 1], ["created_at", "2016-09-10 15:40:46.251607"], ["updated_at", "2016-09-10 15:40:46.251607"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "attractions" ("title", "description", "address", "trans_info", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["title", "Test Attraction"], ["description", "So cool att"], ["address", "Genslerstraße 55, 13055 Berlin"], ["trans_info", "Take M13 for 10 stops"], ["created_at", "2016-09-10 15:40:46.276725"], ["updated_at", "2016-09-10 15:40:46.276725"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "attraction_details" ("title", "description", "attraction_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Test AD"], ["description", "Nice detail"], ["attraction_id", 1], ["created_at", "2016-09-10 15:40:46.287981"], ["updated_at", "2016-09-10 15:40:46.287981"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.4ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 1], ["attraction_id", 1], ["url", "Image Url1 for att"], ["created_at", "2016-09-10 15:40:46.299831"], ["updated_at", "2016-09-10 15:40:46.299831"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 1], ["attraction_id", 1], ["url", "Image Url2 for att"], ["created_at", "2016-09-10 15:40:46.304403"], ["updated_at", "2016-09-10 15:40:46.304403"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 2], ["attraction_id", 1], ["url", "Audio Url1 for att"], ["created_at", "2016-09-10 15:40:46.307549"], ["updated_at", "2016-09-10 15:40:46.307549"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 2], ["attraction_id", 1], ["url", "Audio Url2 for att"], ["created_at", "2016-09-10 15:40:46.310810"], ["updated_at", "2016-09-10 15:40:46.310810"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_detail_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 1], ["attraction_detail_id", 1], ["url", "Image Url1 for attd"], ["created_at", "2016-09-10 15:40:46.314776"], ["updated_at", "2016-09-10 15:40:46.314776"]]
+  [1m[36m (1.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_detail_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 2], ["attraction_detail_id", 1], ["url", "Audio Url2 for attd"], ["created_at", "2016-09-10 15:40:46.318399"], ["updated_at", "2016-09-10 15:40:46.318399"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL  [["provider", "email"]]
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "reviews" ("title", "content", "score", "tour_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Nice job"], ["content", "good"], ["score", 10.0], ["tour_id", 1], ["created_at", "2016-09-10 15:40:46.330959"], ["updated_at", "2016-09-10 15:40:46.330959"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+
+
+Started GET "/tours" for ::1 at 2016-09-10 17:40:56 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (2.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ToursController#index as */*
+  [1m[35mTour Load (7.4ms)[0m  SELECT "tours".* FROM "tours"
+  [1m[36mCity Load (4.6ms)[0m  [1mSELECT  "cities".* FROM "cities" WHERE "cities"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mCountry Load (3.2ms)[0m  SELECT  "countries".* FROM "countries" WHERE "countries"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered tours/_tour.json.jbuilder (37.8ms)
+  Rendered tours/index.json.jbuilder (62.3ms)
+Completed 200 OK in 87ms (Views: 51.8ms | ActiveRecord: 22.4ms)
+
+
+Started GET "/tours/1" for ::1 at 2016-09-10 17:41:07 +0200
+Processing by ToursController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mTour Load (0.4ms)[0m  [1mSELECT  "tours".* FROM "tours" WHERE "tours"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mCity Load (0.2ms)[0m  SELECT  "cities".* FROM "cities" WHERE "cities"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mCountry Load (0.2ms)[0m  [1mSELECT  "countries".* FROM "countries" WHERE "countries"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered tours/_tour.json.jbuilder (2.2ms)
+  Rendered tours/show.json.jbuilder (3.3ms)
+Completed 200 OK in 27ms (Views: 18.1ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/tours/1/attractions" for ::1 at 2016-09-10 17:41:12 +0200
+Processing by ToursController#attractions as */*
+  Parameters: {"id"=>"1"}
+  [1m[35mTour Load (0.3ms)[0m  SELECT  "tours".* FROM "tours" WHERE "tours"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered tours/attractions.json.jbuilder (0.3ms)
+Completed 200 OK in 46ms (Views: 8.8ms | ActiveRecord: 7.9ms)
+  [1m[36m (38.3ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL) [0m
+  [1m[35m (2.5ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to DeviseTokenAuthCreateUsers (20160906190409)
+  [1m[35m (0.1ms)[0m  BEGIN
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/yali/My_apps/TBB/db/migrate/20160906190409_devise_token_auth_create_users.rb:45)
+  [1m[36m (24.1ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "provider" character varying DEFAULT 'email' NOT NULL, "uid" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying, "last_sign_in_ip" character varying, "confirmation_token" character varying, "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying, "name" character varying, "nickname" character varying, "image" character varying, "email" character varying, "tokens" text, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (1.9ms)[0m  CREATE  INDEX  "index_users_on_email" ON "users"  ("email")
+  [1m[36m (1.9ms)[0m  [1mCREATE UNIQUE INDEX  "index_users_on_uid_and_provider" ON "users"  ("uid", "provider")[0m
+  [1m[35m (2.2ms)[0m  CREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160906190409"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+Migrating to CreateCountries (20160908183624)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (8.8ms)[0m  CREATE TABLE "countries" ("id" serial primary key, "name" character varying, "code" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908183624"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+Migrating to CreateCities (20160908190656)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.1ms)[0m  CREATE TABLE "cities" ("id" serial primary key, "name" character varying, "country_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.9ms)[0m  [1mCREATE  INDEX  "index_cities_on_country_id" ON "cities"  ("country_id")[0m
+  [1m[35m (8.4ms)[0m  ALTER TABLE "cities" ADD CONSTRAINT "fk_rails_996e05be41"
+FOREIGN KEY ("country_id")
+  REFERENCES "countries" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908190656"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+Migrating to CreateTours (20160908191604)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.1ms)[0m  CREATE TABLE "tours" ("id" serial primary key, "title" character varying, "description" text, "city_id" integer, "price" float, "user_id" integer, "estimated_time" character varying, "is_trans_included" boolean, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.2ms)[0m  [1mCREATE  INDEX  "index_tours_on_city_id" ON "tours"  ("city_id")[0m
+  [1m[35m (2.1ms)[0m  CREATE  INDEX  "index_tours_on_user_id" ON "tours"  ("user_id")
+  [1m[36m (1.3ms)[0m  [1mALTER TABLE "tours" ADD CONSTRAINT "fk_rails_12295a7603"
+FOREIGN KEY ("city_id")
+  REFERENCES "cities" ("id")
+[0m
+  [1m[35m (1.8ms)[0m  ALTER TABLE "tours" ADD CONSTRAINT "fk_rails_644aa67ccf"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908191604"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+Migrating to CreateAttractions (20160908192636)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.0ms)[0m  CREATE TABLE "attractions" ("id" serial primary key, "title" character varying, "description" text, "trans_info" text, "address" text, "latitude" float, "longitude" float, "tour_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.7ms)[0m  [1mCREATE  INDEX  "index_attractions_on_tour_id" ON "attractions"  ("tour_id")[0m
+  [1m[35m (1.4ms)[0m  ALTER TABLE "attractions" ADD CONSTRAINT "fk_rails_00ad253492"
+FOREIGN KEY ("tour_id")
+  REFERENCES "tours" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908192636"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+Migrating to CreateAttractionDetails (20160908194945)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.3ms)[0m  CREATE TABLE "attraction_details" ("id" serial primary key, "title" character varying, "description" text, "attraction_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.8ms)[0m  [1mCREATE  INDEX  "index_attraction_details_on_attraction_id" ON "attraction_details"  ("attraction_id")[0m
+  [1m[35m (1.2ms)[0m  ALTER TABLE "attraction_details" ADD CONSTRAINT "fk_rails_d4d33a46b6"
+FOREIGN KEY ("attraction_id")
+  REFERENCES "attractions" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908194945"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+Migrating to CreateAttachmentTypes (20160908195750)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.1ms)[0m  CREATE TABLE "attachment_types" ("id" serial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908195750"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+Migrating to CreateAttachments (20160908195840)
+  [1m[36m (0.5ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.4ms)[0m  CREATE TABLE "attachments" ("id" serial primary key, "url" text, "attraction_id" integer, "attraction_detail_id" integer, "attachment_type_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.2ms)[0m  [1mCREATE  INDEX  "index_attachments_on_attraction_id" ON "attachments"  ("attraction_id")[0m
+  [1m[35m (2.0ms)[0m  CREATE  INDEX  "index_attachments_on_attraction_detail_id" ON "attachments"  ("attraction_detail_id")
+  [1m[36m (1.8ms)[0m  [1mCREATE  INDEX  "index_attachments_on_attachment_type_id" ON "attachments"  ("attachment_type_id")[0m
+  [1m[35m (1.2ms)[0m  ALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_9bcf8e3e28"
+FOREIGN KEY ("attraction_id")
+  REFERENCES "attractions" ("id")
+
+  [1m[36m (0.9ms)[0m  [1mALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_5e066cddaa"
+FOREIGN KEY ("attraction_detail_id")
+  REFERENCES "attraction_details" ("id")
+[0m
+  [1m[35m (0.9ms)[0m  ALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_54afe13733"
+FOREIGN KEY ("attachment_type_id")
+  REFERENCES "attachment_types" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908195840"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+Migrating to CreateReviews (20160908200044)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.3ms)[0m  CREATE TABLE "reviews" ("id" serial primary key, "title" character varying, "content" text, "score" float, "tour_id" integer, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.8ms)[0m  [1mCREATE  INDEX  "index_reviews_on_tour_id" ON "reviews"  ("tour_id")[0m
+  [1m[35m (1.9ms)[0m  CREATE  INDEX  "index_reviews_on_user_id" ON "reviews"  ("user_id")
+  [1m[36m (1.2ms)[0m  [1mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_cbf2a12b63"
+FOREIGN KEY ("tour_id")
+  REFERENCES "tours" ("id")
+[0m
+  [1m[35m (0.9ms)[0m  ALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_74a66bd6c5"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908200044"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (2.1ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attachment_types'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.6ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attachments'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.6ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attraction_details'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attractions'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'cities'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'countries'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'reviews'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.4ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'tours'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.4ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "image"], ["created_at", "2016-09-10 15:41:41.142536"], ["updated_at", "2016-09-10 15:41:41.142536"]]
+  [1m[35m (5.9ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["name", "audio"], ["created_at", "2016-09-10 15:41:41.150366"], ["updated_at", "2016-09-10 15:41:41.150366"]]
+  [1m[36m (6.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Syria"], ["code", "SY"], ["created_at", "2016-09-10 15:41:41.165216"], ["updated_at", "2016-09-10 15:41:41.165216"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Germany"], ["code", "DE"], ["created_at", "2016-09-10 15:41:41.168289"], ["updated_at", "2016-09-10 15:41:41.168289"]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "USA"], ["code", "US"], ["created_at", "2016-09-10 15:41:41.171049"], ["updated_at", "2016-09-10 15:41:41.171049"]]
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Damascus"], ["country_id", 1], ["created_at", "2016-09-10 15:41:41.183269"], ["updated_at", "2016-09-10 15:41:41.183269"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Berlin"], ["country_id", 2], ["created_at", "2016-09-10 15:41:41.186988"], ["updated_at", "2016-09-10 15:41:41.186988"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "NY"], ["country_id", 3], ["created_at", "2016-09-10 15:41:41.191056"], ["updated_at", "2016-09-10 15:41:41.191056"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL[0m  [["provider", "email"]]
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL  [["provider", "email"]]
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "tours" ("title", "description", "price", "is_trans_included", "estimated_time", "city_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["title", "Test Tour"], ["description", "This is test tour"], ["price", 10.0], ["is_trans_included", "t"], ["estimated_time", "10 Hours"], ["city_id", 1], ["created_at", "2016-09-10 15:41:41.238106"], ["updated_at", "2016-09-10 15:41:41.238106"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "attractions" ("title", "description", "address", "trans_info", "tour_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"  [["title", "Test Attraction"], ["description", "So cool att"], ["address", "Genslerstraße 55, 13055 Berlin"], ["trans_info", "Take M13 for 10 stops"], ["tour_id", 1], ["created_at", "2016-09-10 15:41:41.264190"], ["updated_at", "2016-09-10 15:41:41.264190"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "attraction_details" ("title", "description", "attraction_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Test AD"], ["description", "Nice detail"], ["attraction_id", 1], ["created_at", "2016-09-10 15:41:41.277358"], ["updated_at", "2016-09-10 15:41:41.277358"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 1], ["attraction_id", 1], ["url", "Image Url1 for att"], ["created_at", "2016-09-10 15:41:41.289305"], ["updated_at", "2016-09-10 15:41:41.289305"]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 1], ["attraction_id", 1], ["url", "Image Url2 for att"], ["created_at", "2016-09-10 15:41:41.293574"], ["updated_at", "2016-09-10 15:41:41.293574"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 2], ["attraction_id", 1], ["url", "Audio Url1 for att"], ["created_at", "2016-09-10 15:41:41.296591"], ["updated_at", "2016-09-10 15:41:41.296591"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 2], ["attraction_id", 1], ["url", "Audio Url2 for att"], ["created_at", "2016-09-10 15:41:41.299397"], ["updated_at", "2016-09-10 15:41:41.299397"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_detail_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 1], ["attraction_detail_id", 1], ["url", "Image Url1 for attd"], ["created_at", "2016-09-10 15:41:41.303100"], ["updated_at", "2016-09-10 15:41:41.303100"]]
+  [1m[36m (1.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_detail_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 2], ["attraction_detail_id", 1], ["url", "Audio Url2 for attd"], ["created_at", "2016-09-10 15:41:41.306617"], ["updated_at", "2016-09-10 15:41:41.306617"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL  [["provider", "email"]]
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "reviews" ("title", "content", "score", "tour_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Nice job"], ["content", "good"], ["score", 10.0], ["tour_id", 1], ["created_at", "2016-09-10 15:41:41.319265"], ["updated_at", "2016-09-10 15:41:41.319265"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+
+
+Started GET "/tours/1/attractions" for ::1 at 2016-09-10 17:42:22 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (1.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ToursController#attractions as */*
+  Parameters: {"id"=>"1"}
+  [1m[35mTour Load (2.0ms)[0m  SELECT  "tours".* FROM "tours" WHERE "tours"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered tours/attractions.json.jbuilder (1.9ms)
+Completed 200 OK in 68ms (Views: 14.8ms | ActiveRecord: 6.7ms)
+  [1m[36m (33.5ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL) [0m
+  [1m[35m (2.7ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to DeviseTokenAuthCreateUsers (20160906190409)
+  [1m[35m (0.1ms)[0m  BEGIN
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/yali/My_apps/TBB/db/migrate/20160906190409_devise_token_auth_create_users.rb:45)
+  [1m[36m (25.3ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "provider" character varying DEFAULT 'email' NOT NULL, "uid" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying, "last_sign_in_ip" character varying, "confirmation_token" character varying, "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying, "name" character varying, "nickname" character varying, "image" character varying, "email" character varying, "tokens" text, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (2.0ms)[0m  CREATE  INDEX  "index_users_on_email" ON "users"  ("email")
+  [1m[36m (2.2ms)[0m  [1mCREATE UNIQUE INDEX  "index_users_on_uid_and_provider" ON "users"  ("uid", "provider")[0m
+  [1m[35m (2.0ms)[0m  CREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160906190409"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+Migrating to CreateCountries (20160908183624)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (8.0ms)[0m  CREATE TABLE "countries" ("id" serial primary key, "name" character varying, "code" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908183624"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+Migrating to CreateCities (20160908190656)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.8ms)[0m  CREATE TABLE "cities" ("id" serial primary key, "name" character varying, "country_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.1ms)[0m  [1mCREATE  INDEX  "index_cities_on_country_id" ON "cities"  ("country_id")[0m
+  [1m[35m (8.7ms)[0m  ALTER TABLE "cities" ADD CONSTRAINT "fk_rails_996e05be41"
+FOREIGN KEY ("country_id")
+  REFERENCES "countries" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908190656"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+Migrating to CreateTours (20160908191604)
+  [1m[36m (0.8ms)[0m  [1mBEGIN[0m
+  [1m[35m (7.1ms)[0m  CREATE TABLE "tours" ("id" serial primary key, "title" character varying, "description" text, "city_id" integer, "price" float, "user_id" integer, "estimated_time" character varying, "is_trans_included" boolean, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.1ms)[0m  [1mCREATE  INDEX  "index_tours_on_city_id" ON "tours"  ("city_id")[0m
+  [1m[35m (2.1ms)[0m  CREATE  INDEX  "index_tours_on_user_id" ON "tours"  ("user_id")
+  [1m[36m (1.3ms)[0m  [1mALTER TABLE "tours" ADD CONSTRAINT "fk_rails_12295a7603"
+FOREIGN KEY ("city_id")
+  REFERENCES "cities" ("id")
+[0m
+  [1m[35m (1.4ms)[0m  ALTER TABLE "tours" ADD CONSTRAINT "fk_rails_644aa67ccf"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908191604"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+Migrating to CreateAttractions (20160908192636)
+  [1m[36m (0.5ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.4ms)[0m  CREATE TABLE "attractions" ("id" serial primary key, "title" character varying, "description" text, "trans_info" text, "address" text, "latitude" float, "longitude" float, "tour_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.6ms)[0m  [1mCREATE  INDEX  "index_attractions_on_tour_id" ON "attractions"  ("tour_id")[0m
+  [1m[35m (2.0ms)[0m  ALTER TABLE "attractions" ADD CONSTRAINT "fk_rails_00ad253492"
+FOREIGN KEY ("tour_id")
+  REFERENCES "tours" ("id")
+
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908192636"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+Migrating to CreateAttractionDetails (20160908194945)
+  [1m[36m (0.5ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.0ms)[0m  CREATE TABLE "attraction_details" ("id" serial primary key, "title" character varying, "description" text, "attraction_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.0ms)[0m  [1mCREATE  INDEX  "index_attraction_details_on_attraction_id" ON "attraction_details"  ("attraction_id")[0m
+  [1m[35m (1.2ms)[0m  ALTER TABLE "attraction_details" ADD CONSTRAINT "fk_rails_d4d33a46b6"
+FOREIGN KEY ("attraction_id")
+  REFERENCES "attractions" ("id")
+
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908194945"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+Migrating to CreateAttachmentTypes (20160908195750)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (7.8ms)[0m  CREATE TABLE "attachment_types" ("id" serial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908195750"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+Migrating to CreateAttachments (20160908195840)
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35m (5.5ms)[0m  CREATE TABLE "attachments" ("id" serial primary key, "url" text, "attraction_id" integer, "attraction_detail_id" integer, "attachment_type_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.0ms)[0m  [1mCREATE  INDEX  "index_attachments_on_attraction_id" ON "attachments"  ("attraction_id")[0m
+  [1m[35m (2.4ms)[0m  CREATE  INDEX  "index_attachments_on_attraction_detail_id" ON "attachments"  ("attraction_detail_id")
+  [1m[36m (2.0ms)[0m  [1mCREATE  INDEX  "index_attachments_on_attachment_type_id" ON "attachments"  ("attachment_type_id")[0m
+  [1m[35m (1.2ms)[0m  ALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_9bcf8e3e28"
+FOREIGN KEY ("attraction_id")
+  REFERENCES "attractions" ("id")
+
+  [1m[36m (1.0ms)[0m  [1mALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_5e066cddaa"
+FOREIGN KEY ("attraction_detail_id")
+  REFERENCES "attraction_details" ("id")
+[0m
+  [1m[35m (0.9ms)[0m  ALTER TABLE "attachments" ADD CONSTRAINT "fk_rails_54afe13733"
+FOREIGN KEY ("attachment_type_id")
+  REFERENCES "attachment_types" ("id")
+
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908195840"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+Migrating to CreateReviews (20160908200044)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.6ms)[0m  CREATE TABLE "reviews" ("id" serial primary key, "title" character varying, "content" text, "score" float, "tour_id" integer, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.0ms)[0m  [1mCREATE  INDEX  "index_reviews_on_tour_id" ON "reviews"  ("tour_id")[0m
+  [1m[35m (3.6ms)[0m  CREATE  INDEX  "index_reviews_on_user_id" ON "reviews"  ("user_id")
+  [1m[36m (1.2ms)[0m  [1mALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_cbf2a12b63"
+FOREIGN KEY ("tour_id")
+  REFERENCES "tours" ("id")
+[0m
+  [1m[35m (0.8ms)[0m  ALTER TABLE "reviews" ADD CONSTRAINT "fk_rails_74a66bd6c5"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20160908200044"]]
+  [1m[35m (1.7ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (2.4ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attachment_types'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (3.0ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attachments'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.6ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attraction_details'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'attractions'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'cities'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.4ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'countries'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.5ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'reviews'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'tours'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.4ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "image"], ["created_at", "2016-09-10 15:42:31.924835"], ["updated_at", "2016-09-10 15:42:31.924835"]]
+  [1m[35m (6.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attachment_types" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["name", "audio"], ["created_at", "2016-09-10 15:42:31.933217"], ["updated_at", "2016-09-10 15:42:31.933217"]]
+  [1m[36m (6.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Syria"], ["code", "SY"], ["created_at", "2016-09-10 15:42:31.948482"], ["updated_at", "2016-09-10 15:42:31.948482"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Germany"], ["code", "DE"], ["created_at", "2016-09-10 15:42:31.951610"], ["updated_at", "2016-09-10 15:42:31.951610"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "countries" ("name", "code", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "USA"], ["code", "US"], ["created_at", "2016-09-10 15:42:31.954258"], ["updated_at", "2016-09-10 15:42:31.954258"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Damascus"], ["country_id", 1], ["created_at", "2016-09-10 15:42:31.969126"], ["updated_at", "2016-09-10 15:42:31.969126"]]
+  [1m[36m (1.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Berlin"], ["country_id", 2], ["created_at", "2016-09-10 15:42:31.973155"], ["updated_at", "2016-09-10 15:42:31.973155"]]
+  [1m[35m (1.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "cities" ("name", "country_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "NY"], ["country_id", 3], ["created_at", "2016-09-10 15:42:31.977019"], ["updated_at", "2016-09-10 15:42:31.977019"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL[0m  [["provider", "email"]]
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL  [["provider", "email"]]
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "tours" ("title", "description", "price", "is_trans_included", "estimated_time", "city_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["title", "Test Tour"], ["description", "This is test tour"], ["price", 10.0], ["is_trans_included", "t"], ["estimated_time", "10 Hours"], ["city_id", 1], ["created_at", "2016-09-10 15:42:32.027447"], ["updated_at", "2016-09-10 15:42:32.027447"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "attractions" ("title", "description", "address", "trans_info", "tour_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"  [["title", "Test Attraction"], ["description", "So cool att"], ["address", "Genslerstraße 55, 13055 Berlin"], ["trans_info", "Take M13 for 10 stops"], ["tour_id", 1], ["created_at", "2016-09-10 15:42:32.055809"], ["updated_at", "2016-09-10 15:42:32.055809"]]
+  [1m[36m (1.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "attraction_details" ("title", "description", "attraction_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Test AD"], ["description", "Nice detail"], ["attraction_id", 1], ["created_at", "2016-09-10 15:42:32.070344"], ["updated_at", "2016-09-10 15:42:32.070344"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 1], ["attraction_id", 1], ["url", "Image Url1 for att"], ["created_at", "2016-09-10 15:42:32.081733"], ["updated_at", "2016-09-10 15:42:32.081733"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 1], ["attraction_id", 1], ["url", "Image Url2 for att"], ["created_at", "2016-09-10 15:42:32.085938"], ["updated_at", "2016-09-10 15:42:32.085938"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 2], ["attraction_id", 1], ["url", "Audio Url1 for att"], ["created_at", "2016-09-10 15:42:32.089046"], ["updated_at", "2016-09-10 15:42:32.089046"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 2], ["attraction_id", 1], ["url", "Audio Url2 for att"], ["created_at", "2016-09-10 15:42:32.091811"], ["updated_at", "2016-09-10 15:42:32.091811"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "attachments" ("attachment_type_id", "attraction_detail_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["attachment_type_id", 1], ["attraction_detail_id", 1], ["url", "Image Url1 for attd"], ["created_at", "2016-09-10 15:42:32.095575"], ["updated_at", "2016-09-10 15:42:32.095575"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "attachments" ("attachment_type_id", "attraction_detail_id", "url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["attachment_type_id", 2], ["attraction_detail_id", 1], ["url", "Audio Url2 for attd"], ["created_at", "2016-09-10 15:42:32.098747"], ["updated_at", "2016-09-10 15:42:32.098747"]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "users" WHERE "users"."provider" = $1 AND "users"."email" IS NULL  [["provider", "email"]]
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "reviews" ("title", "content", "score", "tour_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Nice job"], ["content", "good"], ["score", 10.0], ["tour_id", 1], ["created_at", "2016-09-10 15:42:32.111350"], ["updated_at", "2016-09-10 15:42:32.111350"]]
+  [1m[35m (1.2ms)[0m  COMMIT
+
+
+Started GET "/tours/1/attractions" for ::1 at 2016-09-10 17:42:44 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (2.9ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ToursController#attractions as */*
+  Parameters: {"id"=>"1"}
+  [1m[35mTour Load (6.8ms)[0m  SELECT  "tours".* FROM "tours" WHERE "tours"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered tours/attractions.json.jbuilder (2.3ms)
+Completed 200 OK in 77ms (Views: 18.5ms | ActiveRecord: 11.6ms)
+  [1m[36mTour Load (4.3ms)[0m  [1mSELECT  "tours".* FROM "tours" WHERE "tours"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mTour Load (0.5ms)[0m  SELECT  "tours".* FROM "tours" WHERE "tours"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mAttraction Load (1.6ms)[0m  [1mSELECT "attractions".* FROM "attractions" WHERE "attractions"."tour_id" = $1[0m  [["tour_id", 1]]
+
+
+Started GET "/tours/1/attractions" for ::1 at 2016-09-10 17:44:02 +0200
+Processing by ToursController#attractions as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mTour Load (0.3ms)[0m  [1mSELECT  "tours".* FROM "tours" WHERE "tours"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mAttraction Load (5.5ms)[0m  SELECT "attractions".* FROM "attractions" WHERE "attractions"."tour_id" = $1  [["tour_id", 1]]
+  [1m[36mAttachment Load (3.0ms)[0m  [1mSELECT "attachments".* FROM "attachments" WHERE "attachments"."attraction_id" = $1 AND "attachments"."attachment_type_id" = 1[0m  [["attraction_id", 1]]
+  [1m[35mAttachment Load (0.2ms)[0m  SELECT "attachments".* FROM "attachments" WHERE "attachments"."attraction_id" = $1 AND "attachments"."attachment_type_id" = 2  [["attraction_id", 1]]
+  Rendered attractions/_attraction.json.jbuilder (16.1ms)
+  Rendered tours/attractions.json.jbuilder (42.6ms)
+Completed 200 OK in 57ms (Views: 44.2ms | ActiveRecord: 11.1ms)
+
+
+Started GET "/attractions" for ::1 at 2016-09-10 17:44:17 +0200
+Processing by AttractionsController#index as */*
+  [1m[36mAttraction Load (0.4ms)[0m  [1mSELECT "attractions".* FROM "attractions"[0m
+  [1m[35mAttachment Load (0.3ms)[0m  SELECT "attachments".* FROM "attachments" WHERE "attachments"."attraction_id" = $1 AND "attachments"."attachment_type_id" = 1  [["attraction_id", 1]]
+  [1m[36mAttachment Load (0.2ms)[0m  [1mSELECT "attachments".* FROM "attachments" WHERE "attachments"."attraction_id" = $1 AND "attachments"."attachment_type_id" = 2[0m  [["attraction_id", 1]]
+  Rendered attractions/_attraction.json.jbuilder (2.7ms)
+  Rendered attractions/index.json.jbuilder (5.2ms)
+Completed 200 OK in 24ms (Views: 21.8ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/attractions/1/details" for ::1 at 2016-09-10 17:44:27 +0200
+
+AbstractController::ActionNotFound (The action 'details' could not be found for AttractionsController):
+  actionpack (4.2.6) lib/abstract_controller/base.rb:132:in `process'
+  actionview (4.2.6) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.2.6) lib/action_controller/metal.rb:196:in `dispatch'
+  actionpack (4.2.6) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.2.6) lib/action_controller/metal.rb:237:in `block in action'
+  actionpack (4.2.6) lib/action_dispatch/routing/route_set.rb:74:in `call'
+  actionpack (4.2.6) lib/action_dispatch/routing/route_set.rb:74:in `dispatch'
+  actionpack (4.2.6) lib/action_dispatch/routing/route_set.rb:43:in `serve'
+  actionpack (4.2.6) lib/action_dispatch/journey/router.rb:43:in `block in serve'
+  actionpack (4.2.6) lib/action_dispatch/journey/router.rb:30:in `each'
+  actionpack (4.2.6) lib/action_dispatch/journey/router.rb:30:in `serve'
+  actionpack (4.2.6) lib/action_dispatch/routing/route_set.rb:817:in `call'
+  warden (1.2.6) lib/warden/manager.rb:35:in `block in call'
+  warden (1.2.6) lib/warden/manager.rb:34:in `catch'
+  warden (1.2.6) lib/warden/manager.rb:34:in `call'
+  rack (1.6.4) lib/rack/etag.rb:24:in `call'
+  rack (1.6.4) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.6.4) lib/rack/head.rb:13:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/flash.rb:260:in `call'
+  rack (1.6.4) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.6.4) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/cookies.rb:560:in `call'
+  activerecord (4.2.6) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.2.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:653:in `call'
+  activerecord (4.2.6) lib/active_record/migration.rb:377:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:88:in `__run_callbacks__'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:778:in `_run_call_callbacks'
+  activesupport (4.2.6) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (4.2.6) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/remote_ip.rb:78:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  web-console (2.3.0) lib/web_console/middleware.rb:28:in `block in call'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `catch'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.6) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.6) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/static.rb:120:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.6) lib/rails/engine.rb:518:in `call'
+  railties (4.2.6) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /Users/yali/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /Users/yali/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /Users/yali/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/unknown_action.html.erb within rescues/layout (1.1ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.2ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (49.9ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (90.9ms)
+
+
+Started GET "/attractions/1/details" for ::1 at 2016-09-10 17:46:09 +0200
+Processing by AttractionsController#details as */*
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms)
+
+NoMethodError (undefined method `details' for nil:NilClass):
+  app/controllers/attractions_controller.rb:57:in `details'
+
+
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (4.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.0ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (45.9ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (34.7ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (78.4ms)
+  [1m[35mTour Load (0.5ms)[0m  SELECT  "tours".* FROM "tours" WHERE "tours"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mAttraction Load (0.2ms)[0m  [1mSELECT  "attractions".* FROM "attractions" WHERE "attractions"."tour_id" = $1  ORDER BY "attractions"."id" ASC LIMIT 1[0m  [["tour_id", 1]]
+  [1m[35mAttractionDetail Load (1.6ms)[0m  SELECT "attraction_details".* FROM "attraction_details" WHERE "attraction_details"."attraction_id" = $1  [["attraction_id", 1]]
+
+
+Started GET "/attractions/1/details" for ::1 at 2016-09-10 17:47:25 +0200
+Processing by AttractionsController#details as */*
+  Parameters: {"id"=>"1"}
+  [1m[35mAttraction Load (2.0ms)[0m  SELECT  "attractions".* FROM "attractions" WHERE "attractions"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mAttractionDetail Load (4.3ms)[0m  [1mSELECT "attraction_details".* FROM "attraction_details" WHERE "attraction_details"."attraction_id" = $1[0m  [["attraction_id", 1]]
+  [1m[35mAttachment Load (5.7ms)[0m  SELECT "attachments".* FROM "attachments" WHERE "attachments"."attraction_detail_id" = $1 AND "attachments"."attachment_type_id" = 1  [["attraction_detail_id", 1]]
+  [1m[36mAttachment Load (0.3ms)[0m  [1mSELECT "attachments".* FROM "attachments" WHERE "attachments"."attraction_detail_id" = $1 AND "attachments"."attachment_type_id" = 2[0m  [["attraction_detail_id", 1]]
+  Rendered attraction_details/_attraction_detail.json.jbuilder (18.6ms)
+  Rendered attractions/details.json.jbuilder (31.6ms)
+Completed 200 OK in 62ms (Views: 27.9ms | ActiveRecord: 18.9ms)
+
+
+Started GET "/reviews" for ::1 at 2016-09-10 17:47:43 +0200
+Processing by ReviewsController#index as */*
+  Rendered reviews/index.html.erb within layouts/application (9.9ms)
+Completed 500 Internal Server Error in 24ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (undefined method `each' for nil:NilClass):
+    10:   </thead>
+    11: 
+    12:   <tbody>
+    13:     <% @reviews.each do |review| %>
+    14:       <tr>
+    15:         <td><%= link_to 'Show', review %></td>
+    16:         <td><%= link_to 'Edit', edit_review_path(review) %></td>
+  app/views/reviews/index.html.erb:13:in `_app_views_reviews_index_html_erb__699078205043807775_70093215327960'
+
+
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (5.2ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.4ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (43.2ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.2ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (32.8ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.2ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /Users/yali/.rvm/gems/ruby-2.2.1/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (71.4ms)
+
+
+Started GET "/reviews/1" for ::1 at 2016-09-10 17:47:45 +0200
+Processing by ReviewsController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[35mReview Load (10.3ms)[0m  SELECT  "reviews".* FROM "reviews" WHERE "reviews"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered reviews/_review.json.jbuilder (0.6ms)
+  Rendered reviews/show.json.jbuilder (3.0ms)
+Completed 200 OK in 36ms (Views: 13.1ms | ActiveRecord: 11.9ms)
+
+
+Started GET "/reviews/1" for ::1 at 2016-09-10 17:50:00 +0200
+Processing by ReviewsController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mReview Load (0.3ms)[0m  [1mSELECT  "reviews".* FROM "reviews" WHERE "reviews"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered reviews/_review.json.jbuilder (0.2ms)
+  Rendered reviews/show.json.jbuilder (1.1ms)
+Completed 200 OK in 18ms (Views: 10.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/tours/1/reviews" for ::1 at 2016-09-10 17:50:10 +0200
+Processing by ToursController#reviews as */*
+  Parameters: {"id"=>"1"}
+  [1m[35mTour Load (0.3ms)[0m  SELECT  "tours".* FROM "tours" WHERE "tours"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mReview Load (3.0ms)[0m  [1mSELECT "reviews".* FROM "reviews" WHERE "reviews"."tour_id" = $1[0m  [["tour_id", 1]]
+Completed 200 OK in 35ms (Views: 3.3ms | ActiveRecord: 7.3ms)
