@@ -1,0 +1,17 @@
+<%= form_for(@tourist_attraction_detail) do |f| %>
+  <% if @tourist_attraction_detail.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tourist_attraction_detail.errors.count, "error") %> prohibited this tourist_attraction_detail from being saved:</h2>
+
+      <ul>
+      <% @tourist_attraction_detail.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

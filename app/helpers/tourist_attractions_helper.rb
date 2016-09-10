@@ -1,0 +1,2 @@
+module TouristAttractionsHelper
+end
