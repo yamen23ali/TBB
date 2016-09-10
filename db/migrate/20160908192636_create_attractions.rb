@@ -1,6 +1,6 @@
-class CreateTouristAttractions < ActiveRecord::Migration
+class CreateAttractions < ActiveRecord::Migration
   def change
-    create_table :tourist_attractions do |t|
+    create_table :attractions do |t|
       t.string :title
       t.text :description
       t.text :trans_info

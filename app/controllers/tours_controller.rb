@@ -1,5 +1,5 @@
 class ToursController < ApplicationController
-  before_action :set_tour, only: [:show, :edit, :update, :destroy, :attractions]
+  before_action :set_tour, only: [:show, :edit, :update, :destroy, :attractions, :reviews]
 
   respond_to :json
 
@@ -57,8 +57,14 @@ class ToursController < ApplicationController
 
   # GET /tours/1/attractions
   def attractions
-    @tourist_attractions = @tour.attractions
-    respond_with @tourist_attractions
+    @attractions = @tour.attractions
+    respond_with @attractions
+  end
+
+  # GET /tours/1/attractions
+  def reviews
+    @reviews = @tour.reviews
+    respond_with @reviews
   end
 
   private

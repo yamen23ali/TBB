@@ -24,16 +24,40 @@ ActiveRecord::Schema.define(version: 20160908200044) do
 
   create_table "attachments", force: :cascade do |t|
     t.text     "url"
-    t.integer  "tourist_attraction_id"
-    t.integer  "tourist_attraction_detail_id"
+    t.integer  "attraction_id"
+    t.integer  "attraction_detail_id"
     t.integer  "attachment_type_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   add_index "attachments", ["attachment_type_id"], name: "index_attachments_on_attachment_type_id", using: :btree
-  add_index "attachments", ["tourist_attraction_detail_id"], name: "index_attachments_on_tourist_attraction_detail_id", using: :btree
-  add_index "attachments", ["tourist_attraction_id"], name: "index_attachments_on_tourist_attraction_id", using: :btree
+  add_index "attachments", ["attraction_detail_id"], name: "index_attachments_on_attraction_detail_id", using: :btree
+  add_index "attachments", ["attraction_id"], name: "index_attachments_on_attraction_id", using: :btree
+
+  create_table "attraction_details", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "attraction_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "attraction_details", ["attraction_id"], name: "index_attraction_details_on_attraction_id", using: :btree
+
+  create_table "attractions", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.text     "trans_info"
+    t.text     "address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "tour_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "attractions", ["tour_id"], name: "index_attractions_on_tour_id", using: :btree
 
   create_table "cities", force: :cascade do |t|
     t.string   "name"
@@ -63,30 +87,6 @@ ActiveRecord::Schema.define(version: 20160908200044) do
 
   add_index "reviews", ["tour_id"], name: "index_reviews_on_tour_id", using: :btree
   add_index "reviews", ["user_id"], name: "index_reviews_on_user_id", using: :btree
-
-  create_table "tourist_attraction_details", force: :cascade do |t|
-    t.string   "title"
-    t.text     "description"
-    t.integer  "tourist_attraction_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-  end
-
-  add_index "tourist_attraction_details", ["tourist_attraction_id"], name: "index_tourist_attraction_details_on_tourist_attraction_id", using: :btree
-
-  create_table "tourist_attractions", force: :cascade do |t|
-    t.string   "title"
-    t.text     "description"
-    t.text     "trans_info"
-    t.text     "address"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.integer  "tour_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "tourist_attractions", ["tour_id"], name: "index_tourist_attractions_on_tour_id", using: :btree
 
   create_table "tours", force: :cascade do |t|
     t.string   "title"
@@ -133,13 +133,13 @@ ActiveRecord::Schema.define(version: 20160908200044) do
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
   add_foreign_key "attachments", "attachment_types"
-  add_foreign_key "attachments", "tourist_attraction_details"
-  add_foreign_key "attachments", "tourist_attractions"
+  add_foreign_key "attachments", "attraction_details"
+  add_foreign_key "attachments", "attractions"
+  add_foreign_key "attraction_details", "attractions"
+  add_foreign_key "attractions", "tours"
   add_foreign_key "cities", "countries"
   add_foreign_key "reviews", "tours"
   add_foreign_key "reviews", "users"
-  add_foreign_key "tourist_attraction_details", "tourist_attractions"
-  add_foreign_key "tourist_attractions", "tours"
   add_foreign_key "tours", "cities"
   add_foreign_key "tours", "users"
 end

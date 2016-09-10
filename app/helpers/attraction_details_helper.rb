@@ -1,0 +1,2 @@
+module AttractionDetailsHelper
+end
