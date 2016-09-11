@@ -170,7 +170,7 @@ DEPENDENCIES
   geocoder
   jbuilder (~> 2.0)
   omniauth
-  pg
+  pg (~> 0.18.3)
   pry
   rails (= 4.2.6)
   rails_12factor
