@@ -40,3 +40,16 @@ Attachment.create(attachment_type: audio_att, attraction_detail: attraction_deta
 
 #=========== Review
 Review.create(title: 'Nice job', content: 'good', score: 10, tour: tour, user: user)
+
+
+
+
+
+
+
+
+
+
+
+
+

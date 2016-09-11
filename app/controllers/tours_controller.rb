@@ -6,7 +6,8 @@ class ToursController < ApplicationController
   # GET /tours
   # GET /tours.json
   def index
-    @tours = Tour.all
+    @tours = Tour.search(params['price'], params['city'], params['country'])
+    
     respond_with @tours
   end
 

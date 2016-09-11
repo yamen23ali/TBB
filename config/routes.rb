@@ -3,6 +3,12 @@ Rails.application.routes.draw do
   #Auth
   mount_devise_token_auth_for 'User', at: 'auth'
 
+  resources :users do
+    member do
+      get 'tours'
+    end
+  end
+
   resources :attachments
   resources :reviews
   
@@ -20,4 +26,7 @@ Rails.application.routes.draw do
   end
 
   resources :attraction_details 
+
+  resources :cities
+  resources :countries
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908200044) do
+ActiveRecord::Schema.define(version: 20160911124757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,16 @@ ActiveRecord::Schema.define(version: 20160908200044) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "libraries", force: :cascade do |t|
+    t.integer  "tour_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "libraries", ["tour_id"], name: "index_libraries_on_tour_id", using: :btree
+  add_index "libraries", ["user_id"], name: "index_libraries_on_user_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
     t.string   "title"
@@ -138,6 +148,8 @@ ActiveRecord::Schema.define(version: 20160908200044) do
   add_foreign_key "attraction_details", "attractions"
   add_foreign_key "attractions", "tours"
   add_foreign_key "cities", "countries"
+  add_foreign_key "libraries", "tours"
+  add_foreign_key "libraries", "users"
   add_foreign_key "reviews", "tours"
   add_foreign_key "reviews", "users"
   add_foreign_key "tours", "cities"

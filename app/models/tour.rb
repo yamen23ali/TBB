@@ -4,4 +4,14 @@ class Tour < ActiveRecord::Base
 
   has_many :reviews
   has_many :attractions
+
+  def self.search(price, city, country)
+  	tours = Tour.all
+  	tours = tours.where(price: price) unless  price.blank? 
+  	tours = tours.where(city: city) unless  city.blank? 
+  	tours = tours.joins(:city).where(:cities => { country_id: country} ) unless  country.blank?
+
+  	tours
+  end
+
 end

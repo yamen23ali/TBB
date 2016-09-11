@@ -5,5 +5,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :reviews
-  has_many :tours
+  has_many :libraries
+
+  has_many :tours,  :through => :libraries
 end
