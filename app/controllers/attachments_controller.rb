@@ -4,8 +4,9 @@ class AttachmentsController < ApplicationController
 
   respond_to :json
 
-  # GET /attachments/1
-  # GET /attachments/1.json
+  #=== API_PIE
+  api :GET, "/attachments/{id}", "Get attachment ( Image , Audio ) info by id"
+  #=== API_PIE
   def show
     respond_with @attachment
   end

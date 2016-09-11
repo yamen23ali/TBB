@@ -3,8 +3,9 @@ class CitiesController < ApplicationController
 
   respond_to :json
 
-  # GET /cities/1
-  # GET /cities/1.json
+  #=== API_PIE
+  api :GET, "/cities/{id}", "Get city info by id"
+  #=== API_PIE
   def show
     respond_with @city
   end

@@ -3,7 +3,10 @@ class UsersController < ApplicationController
 
   respond_to :json
 
-  # Get user/{id}/tours
+
+  #=== API_PIE
+  api :GET, "/users/{id}/tours", "Get the tours bought by user by user id"
+  #=== API_PIE
   def tours
     @tours  = @user.tours
     respond_with @tours

@@ -3,15 +3,17 @@ class CountriesController < ApplicationController
 
   respond_to :json
 
-  # GET /countries
-  # GET /countries.json
+  #=== API_PIE
+  api :GET, "/countries", "Get list of all countries with their cities"
+  #=== API_PIE
   def index
     @countries = Country.all
     respond_with @countries
   end
 
-  # GET /countries/1
-  # GET /countries/1.json
+  #=== API_PIE
+  api :GET, "/countries/{id}", "Get country details by its id"
+  #=== API_PIE
   def show
     respond_with @country
   end

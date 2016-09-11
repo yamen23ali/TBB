@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  apipie
   #Auth
   mount_devise_token_auth_for 'User', at: 'auth'
 

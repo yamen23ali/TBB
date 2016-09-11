@@ -3,21 +3,24 @@ class ToursController < ApplicationController
 
   respond_to :json
 
-  # GET /tours
-  # GET /tours.json
+  #=== API_PIE
+  api :GET, "/tours", "Search tours"
+  param :price, Integer, :desc => "Price of the tour"
+  param :city, Integer, :desc => "The id of the city the tour belongs to"
+  param :country, Integer, :desc => "The id of the country the tour belongs to"
+  #=== API_PIE
   def index
     @tours = Tour.search(params['price'], params['city'], params['country'])
-    
     respond_with @tours
   end
 
-  # GET /tours/1
-  # GET /tours/1.json
+  #=== API_PIE
+  api :GET, "/tours/{id}", "Get tour info by id"
+  #=== API_PIE
   def show
     respond_with @tour
   end
 
-  # GET /tours/new
   def new
     @tour = Tour.new
     respond_with @tour
@@ -56,13 +59,17 @@ class ToursController < ApplicationController
     respond_with :no_content
   end
 
-  # GET /tours/1/attractions
+  #=== API_PIE
+  api :GET, "/tours/{id}/attractions", "Get tour attractions by tour id"
+  #=== API_PIE
   def attractions
     @attractions = @tour.attractions
     respond_with @attractions
   end
 
-  # GET /tours/1/attractions
+  #=== API_PIE
+  api :GET, "/tours/{id}/reviews", "Get tour reviews by tour id"
+  #=== API_PIE
   def reviews
     @reviews = @tour.reviews
     respond_with @reviews

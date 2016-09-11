@@ -3,8 +3,9 @@ class AttractionDetailsController < ApplicationController
 
   respond_to :json
 
-  # GET /attraction_details/1
-  # GET /attraction_details/1.json
+  #=== API_PIE
+  api :GET, "/attraction_details/{id}", "Get attraction details by its id"
+  #=== API_PIE
   def show
     respond_with @attraction_detail
   end

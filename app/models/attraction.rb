@@ -9,7 +9,8 @@ class Attraction < ActiveRecord::Base
 
   has_many :details, :class_name => 'AttractionDetail'
 
-  geocoded_by :address 
+  geocoded_by :address
+  after_validation :geocode 
 
   def images_urls
   	images.map{|image| image.url}
